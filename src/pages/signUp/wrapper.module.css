@@ -1,0 +1,10 @@
+.signupWrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 60px;
+}
+
+.signupContent {
+  width: 400px;
+}

@@ -11,6 +11,7 @@
   text-decoration: underline;
   line-height: 70px;
   font-size: 22px;
+  cursor: pointer;
   color: rgba(0, 0, 0, .85);
 }
 

@@ -1,0 +1,10 @@
+.signinWrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 60px;
+}
+
+.signinContent {
+  width: 400px;
+}
