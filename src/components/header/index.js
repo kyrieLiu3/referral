@@ -5,15 +5,14 @@ import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
   const navigate = useNavigate()
-  const handleSignUp = () => navigate('/signup')
-  const handleSignIn = () => navigate('/signin')
-  const handleGoHome = () => navigate('/home')
+  const handleNavigate = (path) => navigate(path)
   return (
     <header className={Styles.container}>
-      <div className={Styles.title} onClick={handleGoHome}>AN & GP Referral</div>
+      <div className={Styles.title} onClick={() => handleNavigate('/')}>AN & GP Referral</div>
       <div className={Styles.accountContainer}>
-        <Button type="link" onClick={handleSignIn}>Sign In</Button>
-        <Button type="link" onClick={handleSignUp}>Sign Up</Button>
+        <Button type="primary" onClick={() => handleNavigate('/signup')}>Sign In</Button>
+        <Button type="link" onClick={() => handleNavigate('/signin')}>Sign Up</Button>
+        <Button type='link' onClick={() => handleNavigate('/positions')}>Position List</Button>
       </div>
     </header>
   )

@@ -5,7 +5,7 @@ import Styles from './styles/filter.module.less'
 const Filter = ({
   filterData,
   onFilterDataChange,
-  jobTypeOps,
+  positionOps,
   cityOps,
   onSearch,
 }) => {
@@ -18,9 +18,9 @@ const Filter = ({
         onValuesChange={onFilterDataChange}
         initialValues={filterData}
       >
-        <Form.Item label="Job Type" name="jobType">
+        <Form.Item label="Position Type" name="positionType">
           <Radio.Group>
-            {jobTypeOps.map(({ title, value }) => {
+            {positionOps.map(({ title, value }) => {
               return (
                 <Radio.Button value={value} key={value}>
                   {title}
@@ -40,8 +40,8 @@ const Filter = ({
             })}
           </Radio.Group>
         </Form.Item>
-        <Form.Item label="Job Name" name="job">
-          <Input allowClear placeholder="Search jobs"/>
+        <Form.Item label="Position Name" name="position">
+          <Input allowClear placeholder="Search positions"/>
         </Form.Item>
         <Form.Item>
           <Button type="primary" onClick={onSearch}>

@@ -3,7 +3,7 @@ import NotFound from '../components/notFound'
 import Home from '../pages/home'
 import SignUp from '../pages/signUp'
 import SignIn from '../pages/signIn'
-import JobList from '../pages/jobList'
+import PositionList from '../pages/positionList'
 
 export const routes = [
   {
@@ -19,8 +19,8 @@ export const routes = [
     element: <SignIn></SignIn>,
   },
   {
-    path: '/jobs',
-    element: <JobList></JobList>,
+    path: '/positions',
+    element: <PositionList></PositionList>,
   },
   {
     path: '/',

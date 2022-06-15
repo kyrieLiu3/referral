@@ -1,17 +1,17 @@
 import React from 'react'
-import JobLisyWrapper from './wrapper'
+import PositionListWrapper from './wrapper'
 import Header from '../../components/header'
 import Content from '../../components/content'
 
-const JobList = () => {
+const PositionList = () => {
   return (
     <React.Fragment>
       <Header></Header>
       <Content>
-        <JobLisyWrapper></JobLisyWrapper>
+        <PositionListWrapper></PositionListWrapper>
       </Content>
     </React.Fragment>
   )
 }
 
-export default JobList
+export default PositionList

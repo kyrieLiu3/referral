@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState } from 'react'
 import { Tag } from 'antd'
 import Styles from './jobCard.module.less'
 
-const JobCard = () => {
+const PositionCard = () => {
   const descriptionRef = useRef()
   const [isShowEllipsis, setIsShowEllipsis] = useState(false)
   useEffect(() => {
@@ -32,4 +32,4 @@ const JobCard = () => {
   )
 }
 
-export default JobCard
+export default PositionCard
