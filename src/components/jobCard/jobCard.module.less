@@ -1,0 +1,45 @@
+.card {
+  padding: 16px;
+  margin-bottom: 12px;
+  height: 160px;
+  width: 100%;
+  box-shadow: 0 6px 10px #f0f1f2;
+  transition: all 0.2s linear;
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.cardTitle {
+  color: rgba(0, 0, 0, .85);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.tagWrapper {
+  margin-top: 16px;
+}
+
+.cardDescription {
+  height: 44px;
+  margin-top: 16px;
+  overflow: hidden;
+  line-height: 22px;
+}
+
+.ellipsis {
+  position: relative;
+  &::after {
+    content: '...';
+    position: absolute;
+    padding-top: 22px;
+    bottom: 0;
+    right: 0;
+    width: 64px;
+    height: 44px;
+    text-align: right;
+    background: linear-gradient(to right, transparent, white);
+  }
+}
