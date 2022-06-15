@@ -28,12 +28,27 @@
   left: 0;
   right: 0;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+}
+
+.welcomeTextWrapper {
+  height: 80px;
+  position: absolute;
+  left: 50%;
+  top: 200px;
+  transform: translateX(-50%);
+}
+
+.welcomeText {
+  font-size: 28px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .detailWrapper {
   flex: 1;
   display: flex;
+  align-items: center;
 }
 
 .detailButton {
