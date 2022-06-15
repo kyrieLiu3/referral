@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
 import Typed from '../../components/typed'
-import Styles from './wrapper.module.css'
+import Styles from './wrapper.module.less'
 import { HRG, EMPLOYEE } from '../../constant'
 
 const HomeWrapper = () => {

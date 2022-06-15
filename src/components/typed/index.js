@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Typed from 'typed.js'
+import Styles from './typed.module.less'
 
 const TypedComponent = ({ options }) => {
   useEffect(() => {
@@ -14,7 +15,7 @@ const TypedComponent = ({ options }) => {
     return () => typed.destroy()
   }, [options])
   return (
-    <div id="typed" style={{ fontSize: 38, color: 'rgba(0, 0, 0, .85)', textAlign: 'center' }}></div>
+    <div id="typed" className={Styles.typedWrapper}></div>
   )
 }
 

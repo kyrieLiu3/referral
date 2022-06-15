@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from '../header'
 import Content from '../content'
-import Styles from './notFound.module.css'
+import Styles from './notFound.module.less'
 
 const NotFound = () => {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import Styles from './content.module.css'
+import Styles from './content.module.less'
 
 const Content = ({ children }) => {
   return (

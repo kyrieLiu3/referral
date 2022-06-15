@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Tabs, Form, Input, Button } from 'antd'
 import { useSearchParams } from 'react-router-dom'
-import Styles from './wrapper.module.css'
+import Styles from './wrapper.module.less'
 import { HRG, EMPLOYEE } from '../../constant'
 
 const Wrapper = () => {
