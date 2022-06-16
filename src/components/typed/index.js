@@ -9,14 +9,12 @@ const TypedComponent = ({ options }) => {
       typeSpeed: 50,
       backSpeed: 50,
       loop: true,
-      showCursor: false
+      showCursor: false,
     }
     const typed = new Typed('#typed', opts)
     return () => typed.destroy()
   }, [options])
-  return (
-    <div id="typed" className={Styles.typedWrapper}></div>
-  )
+  return <div id="typed" className={Styles.typedWrapper}></div>
 }
 
 export default TypedComponent

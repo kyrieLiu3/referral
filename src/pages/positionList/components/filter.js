@@ -41,7 +41,7 @@ const Filter = ({
           </Radio.Group>
         </Form.Item>
         <Form.Item label="Position Name" name="position">
-          <Input allowClear placeholder="Search positions"/>
+          <Input allowClear placeholder="Search positions" />
         </Form.Item>
         <Form.Item>
           <Button type="primary" onClick={onSearch}>

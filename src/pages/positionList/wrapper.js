@@ -28,7 +28,7 @@ const PositionLisyWrapper = () => {
     setFilterData({ ...filterData, ...data })
   // TODO: Finish search logic block
   const handleSearch = () => {}
-  const handleCardClick = (positionId) => {
+  const handleCardClick = positionId => {
     navigate(`/position/${positionId}`)
   }
   return (

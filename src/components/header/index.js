@@ -10,8 +10,8 @@ const Header = () => {
     <header className={Styles.container}>
       <div className={Styles.title} onClick={() => handleNavigate('/')}>AN & GP Referral</div>
       <div className={Styles.accountContainer}>
-        <Button type="primary" onClick={() => handleNavigate('/signup')}>Sign In</Button>
-        <Button type="link" onClick={() => handleNavigate('/signin')}>Sign Up</Button>
+        <Button type="primary" onClick={() => handleNavigate('/signup')}>Sign Up</Button>
+        <Button type="link" onClick={() => handleNavigate('/signin')}>Sign In</Button>
         <Button type='link' onClick={() => handleNavigate('/positions')}>Position List</Button>
       </div>
     </header>

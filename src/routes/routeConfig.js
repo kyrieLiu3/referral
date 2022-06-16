@@ -34,6 +34,6 @@ export const routes = [
   },
   {
     path: '*',
-    element: <NotFound></NotFound>
-  }
+    element: <NotFound></NotFound>,
+  },
 ]

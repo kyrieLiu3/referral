@@ -9,7 +9,7 @@ const HomeWrapper = () => {
   const navigate = useNavigate()
   const size = 'large'
   const options = {
-    strings: ['Employee Referral Program', 'Appreciate Your Recommendations!']
+    strings: ['Employee Referral Program', 'Appreciate Your Recommendations!'],
   }
   return (
     <div className={Styles.homeWrapper}>

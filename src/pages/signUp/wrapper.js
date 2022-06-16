@@ -1,15 +1,18 @@
 import React, { useState } from 'react'
 import { Tabs, Form, Input, Button } from 'antd'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import Styles from './wrapper.module.less'
 import { HRG, EMPLOYEE } from '../../constant'
 
 const Wrapper = () => {
   const [form] = Form.useForm()
+  const navigate = useNavigate()
 
   const [routeQuery] = useSearchParams()
   const { TabPane } = Tabs
-  const [userType, setUserType] = useState(routeQuery.get('userType') || EMPLOYEE)
+  const [userType, setUserType] = useState(
+    routeQuery.get('userType') || EMPLOYEE
+  )
 
   const handleReset = () => form.resetFields()
   const handleSignUp = async () => {
@@ -90,7 +93,12 @@ const Wrapper = () => {
             </Form.Item>
           )}
           <Form.Item>
-            <Button onClick={handleReset} style={{ width: '100%', marginBottom: '8px' }}>Reset</Button>
+            <Button
+              onClick={handleReset}
+              style={{ width: '100%', marginBottom: '8px' }}
+            >
+              Reset
+            </Button>
             <Button
               type="primary"
               style={{ width: '100%', marginBottom: '8px' }}
@@ -98,7 +106,17 @@ const Wrapper = () => {
             >
               Sign Up
             </Button>
-            <p>Or<Button type='link' style={{ padding: '4px'}}>sign in</Button>now！</p>
+            <p>
+              Or
+              <Button
+                type="link"
+                style={{ padding: '4px' }}
+                onClick={() => navigate('/signin')}
+              >
+                sign in
+              </Button>
+              now！
+            </p>
           </Form.Item>
         </Form>
       </div>

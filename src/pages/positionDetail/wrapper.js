@@ -8,7 +8,9 @@ const PositionDetailWrapper = () => {
       <div className={Styles.detail}>
         <div className={Styles.title}>
           <div className={Styles.titleText}>PHP developer</div>
-          <div><Button type="primary">Apply For This Position</Button></div>
+          <div>
+            <Button type="primary">Apply For This Position</Button>
+          </div>
         </div>
         <div className={Styles.description}>
           <p className={Styles.descriptionTitle}>Description</p>
