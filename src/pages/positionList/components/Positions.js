@@ -2,18 +2,19 @@ import React from 'react'
 import Styles from './styles/positions.module.less'
 import PositionCard from '../../../components/positionCard'
 
-const Jobs = () => {
+const Positions = ({onCardClick}) => {
   return (
     <div className={Styles.jobsWrapper}>
-      <PositionCard></PositionCard>
-      <PositionCard></PositionCard>
-      <PositionCard></PositionCard>
-      <PositionCard></PositionCard>
-      <PositionCard></PositionCard>
-      <PositionCard></PositionCard>
-      <PositionCard></PositionCard>
+      <PositionCard onCardClick={onCardClick}></PositionCard>
+      <PositionCard onCardClick={onCardClick}></PositionCard>
+      <PositionCard onCardClick={onCardClick}></PositionCard>
+      <PositionCard onCardClick={onCardClick}></PositionCard>
+      <PositionCard onCardClick={onCardClick}></PositionCard>
+      <PositionCard onCardClick={onCardClick}></PositionCard>
+      <PositionCard onCardClick={onCardClick}></PositionCard>
+      <PositionCard onCardClick={onCardClick}></PositionCard>
     </div>
   )
 }
 
-export default Jobs
+export default Positions

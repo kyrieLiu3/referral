@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState } from 'react'
 import { Tag } from 'antd'
-import Styles from './jobCard.module.less'
+import Styles from './positionCard.module.less'
 
-const PositionCard = () => {
+const PositionCard = ({onCardClick}) => {
   const descriptionRef = useRef()
   const [isShowEllipsis, setIsShowEllipsis] = useState(false)
   useEffect(() => {
@@ -10,7 +10,7 @@ const PositionCard = () => {
     setIsShowEllipsis(showEllipsis)
   }, [descriptionRef])
   return (
-    <div className={Styles.card}>
+    <div className={Styles.card} onClick={() => onCardClick('123')}>
       <div className={Styles.cardTitle}>This is Card Title</div>
       <div className={Styles.tagWrapper}>
         <Tag color="volcano">Xian</Tag>

@@ -4,6 +4,7 @@ import Home from '../pages/home'
 import SignUp from '../pages/signUp'
 import SignIn from '../pages/signIn'
 import PositionList from '../pages/positionList'
+import PositionDetail from '../pages/positionDetail'
 
 export const routes = [
   {
@@ -21,6 +22,10 @@ export const routes = [
   {
     path: '/positions',
     element: <PositionList></PositionList>,
+  },
+  {
+    path: '/position/:id',
+    element: <PositionDetail></PositionDetail>,
   },
   {
     path: '/',

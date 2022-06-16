@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Styles from './wrapper.module.less'
 import Filter from './components/filter'
 import Positions from './components/Positions'
@@ -17,6 +18,7 @@ const CITY_OPS = [
 ]
 
 const PositionLisyWrapper = () => {
+  const navigate = useNavigate()
   const [filterData, setFilterData] = useState({
     positionType: 'all',
     city: 'all',
@@ -26,6 +28,9 @@ const PositionLisyWrapper = () => {
     setFilterData({ ...filterData, ...data })
   // TODO: Finish search logic block
   const handleSearch = () => {}
+  const handleCardClick = (positionId) => {
+    navigate(`/position/${positionId}`)
+  }
   return (
     <div className={Styles.positionsListWrapper}>
       <Filter
@@ -35,7 +40,7 @@ const PositionLisyWrapper = () => {
         onFilterDataChange={handleFilterDataChange}
         onSearch={handleSearch}
       ></Filter>
-      <Positions></Positions>
+      <Positions onCardClick={handleCardClick}></Positions>
       <Paginator></Paginator>
     </div>
   )
