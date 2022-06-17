@@ -3,6 +3,7 @@ import { Tabs, Form, Input, Button } from 'antd'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Styles from './wrapper.module.less'
 import { HRG, EMPLOYEE } from '../../constant'
+import { httpSignup } from '../../api'
 
 const Wrapper = () => {
   const [form] = Form.useForm()
@@ -19,9 +20,13 @@ const Wrapper = () => {
     try {
       // TODO: handle all customed validation rule detail
       await form.validateFields()
-      const formData = form.getFieldsValue(true)
-      console.log(formData, 'formData')
-      // TODO: handle submit form data for signing up
+      const { email, password } = form.getFieldsValue(true)
+      const params = {
+        username: email,
+        password,
+        role: 1
+      }
+      await httpSignup(params)
     } catch (error) {
       console.log(error)
     }
