@@ -1,2 +1,2 @@
-export const HRG = 'HRG'
-export const EMPLOYEE = 'EMPLOYEE'
+export const EMPLOYEE = '1'
+export const HRG = '2'

@@ -4,7 +4,7 @@ const { connectDb } = require('./tool')
 const createUserTable = db => {
   const SQL = `
     CREATE TABLE IF NOT EXISTS users 
-    (id INTEGER PRIMARY KEY, username Text, password TEXT, role, INTEGER)
+    (id INTEGER PRIMARY KEY, username Text, password TEXT, role, TEXT)
   `
   db.run(SQL, () => console.log('[Database] Create users table'))
 }

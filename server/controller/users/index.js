@@ -11,6 +11,15 @@ class Users {
     const params = [username, password, role]
     return await operateDb(db, SQL, params)
   }
+
+  validateEmail = async (email) => {
+    const db = await connectDb()
+    const SQL = `
+      SELECT username FROM users WHERE username=?
+    `
+    const params = [email]
+    return await operateDb(db, SQL, params)
+  }
 }
 
 module.exports = new Users()
