@@ -4,16 +4,12 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import Styles from './wrapper.module.less'
 import { HRG, EMPLOYEE } from '../../constant'
 import { httpSignup, validateEmail } from '../../api'
-import { passwordReg } from '../../utils/reg'
+import { passwordReg, emailReg } from '../../utils/reg'
 
 const Wrapper = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate()
   const mailRules = [
-    {
-      type: 'email',
-      message: 'Please input valid E-mail',
-    },
     {
       required: true,
       message: 'Please input your E-mail',
@@ -21,17 +17,18 @@ const Wrapper = () => {
     {
       validator: (_, value) => {
         if (!value) return Promise.resolve()
+        if (!emailReg.test(value)) return Promise.reject(new Error('Please input valid email'))
         return validateEmail({ email: value }).then(
           ({ data }) => {
             return (
               data ||
-              Promise.reject(new Error('The email has been registered!'))
+              Promise.reject(new Error('The email has been registered'))
             )
           },
           error => {
             console.log(error)
             return new Error(
-              'An error occurred when validating email, try again please!'
+              'An error occurred when validating email, try again please'
             )
           }
         )
@@ -60,7 +57,7 @@ const Wrapper = () => {
           return Promise.resolve()
         }
         return Promise.reject(
-          new Error('The two passwords that you inputed do not match!')
+          new Error('The two passwords that you inputed do not match')
         )
       },
     }),
@@ -92,6 +89,7 @@ const Wrapper = () => {
       }
       userType === HRG && (params['invitationCode'] = invitationCode)
       await httpSignup(params)
+      //TODO: REDIRCT to position list page
     } catch (error) {
       console.log(error)
     } finally {

@@ -1,2 +1,2 @@
-exports.PARAMS_ERROR = 'Request parameters error'
-exports.SERVER_ERROR = 'Server error'
+exports.PARAMS_ERROR = '[ERROR] [400] [Request parameters error]'
+exports.SERVER_ERROR = '[ERROR] [500] [Server error]'

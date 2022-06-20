@@ -1,6 +1,6 @@
 const User = require('../../controller/users')
-const { successStructure, mailReg, passwordReg } = require('../utils')
-const { PARAMS_ERROR, SERVER_ERROR } = require('../../constant')
+const { successStructure, mailReg, passwordReg, handleUniformError } = require('../utils')
+const { PARAMS_ERROR } = require('../../constant')
 const { EMPLOYEE, HRG, INVITATION_CODE } = require('../../database/constant')
 
 const validateSignup = (username, password, role, invitationCode) => {
@@ -20,14 +20,18 @@ exports.signupHandler = async ctx => {
   try {
     const { username, password, role, invitationCode } = ctx.request.body
     if (validateSignup(username, password, role, invitationCode)) {
+      const validateEmailRes = await User.validateEmail(username)
+      if (validateEmailRes.length) {
+        ctx.throw(400, PARAMS_ERROR)
+        return false
+      }
       const results = await User.signup(username, password, role)
       ctx.body = { ...successStructure, data: results }
     } else {
-      // FIXME: handle uniform error
       ctx.throw(400, PARAMS_ERROR)
     }
   } catch (error) {
-    ctx.throw(500, SERVER_ERROR)
+    handleUniformError(ctx, error)
   }
 }
 
@@ -35,7 +39,6 @@ exports.validateEmailHandler = async ctx => {
   try {
     const { email } = ctx.request.query
     if (!validateValidataEmail(email)) {
-      // FIXME: handle uniform error
       ctx.throw(400, PARAMS_ERROR)
       return false
     }
@@ -46,6 +49,6 @@ exports.validateEmailHandler = async ctx => {
       ctx.body = { ...successStructure, data: true }
     }
   } catch (error) {
-    ctx.throw(500, SERVER_ERROR)
+    handleUniformError(ctx, error)
   }
 }
