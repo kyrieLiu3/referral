@@ -1,29 +1,62 @@
 import React, { useState } from 'react'
-import { Tabs, Form, Input, Button } from 'antd'
+import { Tabs, Form, Input, Button, message } from 'antd'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import Styles from './wrapper.module.less'
 import { HRG, EMPLOYEE } from '../../constant'
+import { passwordReg } from '../../utils/reg'
+import { httpSignin } from '../../api'
 
 const Wrapper = () => {
   const navigate = useNavigate()
   const [form] = Form.useForm()
+  const [isLoading, setIsLoading] = useState(false)
 
   const [routeQuery] = useSearchParams()
   const { TabPane } = Tabs
-  const [userType, setUserType] = useState(
-    routeQuery.get('userType') || EMPLOYEE
-  )
+  const [role, setRole] = useState(routeQuery.get('role') || EMPLOYEE)
+
+  const emailRules = [
+    {
+      required: true,
+      message: 'Please input your E-mail',
+    },
+    {
+      type: 'email',
+      message: 'Please input valid E-mail',
+    },
+  ]
+
+  const passwordRules = [
+    {
+      required: true,
+      message: 'Please input your password',
+    },
+    {
+      pattern: passwordReg,
+      message:
+        'Password must be a combination of letters and numbers, 8 at least and less than 16',
+    },
+  ]
 
   const handleReset = () => form.resetFields()
   const handleSignUp = async () => {
     try {
-      // TODO: handle all customed validation rule detail
       await form.validateFields()
-      const formData = form.getFieldsValue(true)
-      console.log(formData, 'formData')
-      // TODO: handle submit form data for signing up
+      setIsLoading(true)
+      const { username, password } = form.getFieldsValue(true)
+      const params = {
+        username,
+        password,
+        role,
+      }
+      const { data } = await httpSignin(params)
+      message.success('Log in successfully')
+      navigate('/positions')
+      console.log(data, 'data') // FIXME: HANDLE tocken
     } catch (error) {
-      console.log(error)
+      message.error(error)
+    } finally {
+      setIsLoading(false)
     }
   }
   return (
@@ -31,35 +64,27 @@ const Wrapper = () => {
       <div className={Styles.signinContent}>
         <Tabs
           centered
-          defaultActiveKey={userType}
+          defaultActiveKey={role}
           moreIcon={null}
-          onChange={activeKey => setUserType(activeKey)}
+          onChange={activeKey => setRole(activeKey)}
         >
           <TabPane tab="Employee" key={EMPLOYEE}></TabPane>
           <TabPane tab="HRG" key={HRG}></TabPane>
         </Tabs>
         <Form form={form} name="account" layout="vertical">
           <Form.Item
-            name="email"
-            label="email"
-            rules={[
-              {
-                required: true,
-                message: 'Please enter your email',
-              },
-            ]}
+            name="username"
+            label="Email"
+            rules={emailRules}
+            validateTrigger="onBlur"
           >
             <Input placeholder="Enter your email" allowClear />
           </Form.Item>
           <Form.Item
             name="password"
             label="Password"
-            rules={[
-              {
-                required: true,
-                message: 'Please enter your password',
-              },
-            ]}
+            rules={passwordRules}
+            validateTrigger="onBlur"
           >
             <Input.Password allowClear placeholder="Enter your password" />
           </Form.Item>
@@ -74,6 +99,7 @@ const Wrapper = () => {
               type="primary"
               style={{ width: '100%', marginBottom: '8px' }}
               onClick={handleSignUp}
+              loading={isLoading}
             >
               Sign In
             </Button>

@@ -1,25 +1,26 @@
-const { SERVER_ERROR } = require('../constant')
+const { PARAMS_ERROR, SERVER_ERROR } = require('../constant')
+
+const errorStatusCodeMap = {
+  400: PARAMS_ERROR,
+  500: SERVER_ERROR
+}
+
 exports.successStructure = {
   code: 0,
   status: 'success',
-  data: {}
+  data: {},
 }
 
 exports.failStructure = {
   code: 1,
   status: 'error',
-  data: {}
+  data: {},
 }
 
 exports.mailReg = /^\w+@(\w+.)\w{2,4}$/
 exports.passwordReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/
 
-exports.handleUniformError = (ctx, error) => {
-  const errorReg = /^\[ERROR\]\s\[(\d{3})\]\s\[(.*)\]/
-  if (error.message && errorReg.test(error.message)) {
-    const [group, statusCode, errorMessage] = error.message.match(errorReg)
-    ctx.throw(Number(statusCode, errorMessage))
-  } else {
-    ctx.throw(500, SERVER_ERROR)
-  }
+exports.setErrorResponse = (ctx, statusCode) => {
+  ctx.status = statusCode
+  ctx.message = errorStatusCodeMap[statusCode]
 }

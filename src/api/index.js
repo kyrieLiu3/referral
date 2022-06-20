@@ -9,3 +9,8 @@ export const validateEmail = async (params) => {
   const { data } = await http.get('/user/validateEmail', { params })
   return data
 }
+
+export const httpSignin = async (params) => {
+  const { data } = await http.post('/user/signin', params)
+  return data
+}

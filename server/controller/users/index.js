@@ -20,6 +20,15 @@ class Users {
     const params = [email]
     return await operateDb(db, SQL, params)
   }
+
+  signin = async (username, password, role) => {
+    const db = await connectDb()
+    const SQL = `
+      SELECT username, password, role FROM users WHERE username=? AND password=? AND role=?
+    `
+    const params = [username, password, role]
+    return await operateDb(db, SQL, params)
+  }
 }
 
 module.exports = new Users()

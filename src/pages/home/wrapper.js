@@ -25,7 +25,7 @@ const HomeWrapper = () => {
               type="primary"
               shape="round"
               size={size}
-              onClick={() => navigate(`/signin?userType=${EMPLOYEE}`)}
+              onClick={() => navigate(`/signin?role=${EMPLOYEE}`)}
             >
               Employee
             </Button>
@@ -35,7 +35,7 @@ const HomeWrapper = () => {
               type="default"
               shape="round"
               size={size}
-              onClick={() => navigate(`/signin?userType=${HRG}`)}
+              onClick={() => navigate(`/signin?role=${HRG}`)}
             >
               HRG
             </Button>
