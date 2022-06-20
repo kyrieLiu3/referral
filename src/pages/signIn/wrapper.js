@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { Tabs, Form, Input, Button, message } from 'antd'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSetRecoilState } from 'recoil'
 import Styles from './wrapper.module.less'
 import { HRG, EMPLOYEE } from '../../constant'
 import { passwordReg } from '../../utils/reg'
 import { httpSignin } from '../../api'
+import { userState } from '../../store'
 
 const Wrapper = () => {
   const navigate = useNavigate()
+  const setUserRocoilState = useSetRecoilState(userState)
   const [form] = Form.useForm()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -38,6 +41,11 @@ const Wrapper = () => {
     },
   ]
 
+  const handleToken = ({ username, token }) => {
+    localStorage.setItem('token', token)
+    setUserRocoilState(user => ({ ...user, username, token }))
+  }
+
   const handleReset = () => form.resetFields()
   const handleSignUp = async () => {
     try {
@@ -51,8 +59,8 @@ const Wrapper = () => {
       }
       const { data } = await httpSignin(params)
       message.success('Log in successfully')
+      handleToken(data)
       navigate('/positions')
-      console.log(data, 'data') // FIXME: HANDLE tocken
     } catch (error) {
       message.error(error)
     } finally {

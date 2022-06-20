@@ -1,8 +1,10 @@
 import { atom, selector } from 'recoil'
 
 const userStateKey = 'USER_ATOM'
+const token = localStorage.getItem('token') || ''
 const userInitState = {
-  username: 'referral',
+  username: '',
+  token,
 }
 export const userState = atom({
   key: userStateKey,

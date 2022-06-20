@@ -1,3 +1,5 @@
+// const { validateToken } = require('../jwt')
+
 exports.crossOrigin = async (ctx, next) => {
   await next()
   ctx.response.set('Access-Control-Allow-Origin', '*')

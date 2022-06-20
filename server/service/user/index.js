@@ -7,6 +7,7 @@ const {
   setErrorResponse,
 } = require('../utils')
 const { EMPLOYEE, HRG, INVITATION_CODE } = require('../../database/constant')
+const { generateToken } = require('../../jwt')
 
 const validateSignup = (username, password, role, invitationCode) => {
   return !(
@@ -72,12 +73,15 @@ exports.validateEmailHandler = async ctx => {
 
 exports.signinHandler = async ctx => {
   try {
+    console.log(ctx.request, 'ctx.request')
     const { username, password, role } = ctx.request.body
     if (validataSignin(username, password, role)) {
       // success
       const results = await User.signin(username, password, role)
       if (results.length) {
-        ctx.body = { ...successStructure }
+        const [user] = results
+        const token = await generateToken({ userId: user.id })
+        ctx.body = { ...successStructure, data: { username, token } }
       } else {
         ctx.body = {
           ...failStructure,
