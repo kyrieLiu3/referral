@@ -15,8 +15,8 @@ initDatabase()
 app.use(historyApiFallback({ whiteList: ['/api'] }))
 app.use(serve(staticPath))
 app.use(bodyParser());
-app.use(validateJWT)
 app.use(crossOrigin)
+app.use(validateJWT)
 app.use(router.routes())
 app.use(router.allowedMethods())
 

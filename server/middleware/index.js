@@ -3,10 +3,10 @@ const User = require('../controller/users')
 const whiteList = ['/api/user/signin', '/api/user/signup', '/api/user/validateEmail']
 
 exports.crossOrigin = async (ctx, next) => {
-  await next()
   ctx.response.set('Access-Control-Allow-Origin', '*')
   ctx.response.set('Access-Control-Allow-Method', '*')
   ctx.response.set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+  await next()
 }
 
 exports.validateJWT = async (ctx, next) => {
@@ -28,8 +28,7 @@ exports.validateJWT = async (ctx, next) => {
       }
     }
   } catch (error) {
-    console.log(error, 'JWT verification error')
+    console.log(error, 'JWT verification fail')
     ctx.status = 401
-    await next()
   }
 }

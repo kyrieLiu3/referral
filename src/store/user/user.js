@@ -1,7 +1,7 @@
 import { atom, selector } from 'recoil'
 
 const userStateKey = 'USER_ATOM'
-const userInitState = {
+export const userInitState = {
   username: '',
   userId: '',
   role: ''

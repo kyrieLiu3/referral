@@ -80,7 +80,8 @@ exports.signinHandler = async ctx => {
       const results = await User.signin(username, password, role)
       if (results.length) {
         const [user] = results
-        const token = await generateToken({ userId: user.userId })
+        const timestamp = +new Date()
+        const token = await generateToken({ userId: user.userId, timestamp })
         ctx.body = { ...successStructure, data: { username, userId: user.userId, role, token } }
       } else {
         ctx.body = {

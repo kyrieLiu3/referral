@@ -1,11 +1,15 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
+import { useRecoilValue } from 'recoil'
 import Typed from '../../components/typed'
 import Styles from './wrapper.module.less'
 import { HRG, EMPLOYEE } from '../../constant'
+import { userSelector } from '../../store'
 
 const HomeWrapper = () => {
+  const username = useRecoilValue(userSelector)
   const navigate = useNavigate()
   const size = 'large'
   const options = {
@@ -20,26 +24,43 @@ const HomeWrapper = () => {
           <Typed options={options}></Typed>
         </div>
         <div className={Styles.detailWrapper}>
-          <div className={`${Styles.detailButton} ${Styles.detailButtonLeft}`}>
+          {username ? (
             <Button
-              type="primary"
-              shape="round"
-              size={size}
-              onClick={() => navigate(`/signin?role=${EMPLOYEE}`)}
-            >
-              Employee
-            </Button>
-          </div>
-          <div className={Styles.detailButton}>
-            <Button
+              className={Styles.findout}
               type="default"
+              size="large"
               shape="round"
-              size={size}
-              onClick={() => navigate(`/signin?role=${HRG}`)}
+              onClick={() => navigate('/positions')}
+              icon={<SearchOutlined />}
             >
-              HRG
+              Find Out Referral Positions
             </Button>
-          </div>
+          ) : (
+            <React.Fragment>
+              <div
+                className={`${Styles.detailButton} ${Styles.detailButtonLeft}`}
+              >
+                <Button
+                  type="primary"
+                  shape="round"
+                  size={size}
+                  onClick={() => navigate(`/signin?role=${EMPLOYEE}`)}
+                >
+                  Employee
+                </Button>
+              </div>
+              <div className={Styles.detailButton}>
+                <Button
+                  type="default"
+                  shape="round"
+                  size={size}
+                  onClick={() => navigate(`/signin?role=${HRG}`)}
+                >
+                  HRG
+                </Button>
+              </div>
+            </React.Fragment>
+          )}
         </div>
       </div>
     </div>

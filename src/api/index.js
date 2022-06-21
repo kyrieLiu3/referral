@@ -19,3 +19,8 @@ export const getUserData = async () => {
   const { data } = await http.get('/user/getUserData')
   return data
 }
+
+export const changePassword = async (params) => {
+  const { data } = await http.post('/user/changePassword', params)
+  return data
+} 
