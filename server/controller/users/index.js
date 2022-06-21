@@ -12,13 +12,14 @@ class Users {
     return await operateDb(db, SQL, params)
   }
 
-  validateEmail = async (email) => {
+  validateEmail = async email => {
     const db = await connectDb()
     const SQL = `
       SELECT username FROM users WHERE username=?
     `
     const params = [email]
-    return await operateDb(db, SQL, params)
+    const [user] = await operateDb(db, SQL, params)
+    return !!user
   }
 
   signin = async (username, password, role) => {
@@ -27,15 +28,35 @@ class Users {
       SELECT * FROM users WHERE username=? AND password=? AND role=?
     `
     const params = [username, password, role]
-    return await operateDb(db, SQL, params)
+    const [user] = await operateDb(db, SQL, params)
+    return user
   }
 
-  userData = async (userId) => {
+  userData = async userId => {
     const db = await connectDb()
     const SQL = `
       SELECT * FROM users WHERE userId=?
     `
     const params = [userId]
+    return await operateDb(db, SQL, params)
+  }
+
+  validatePassword = async (userId, password) => {
+    const db = await connectDb()
+    const SQL = `
+      SELECT * FROM users WHERE userId=? AND password=?
+    `
+    const params = [userId, password]
+    const [user] = await operateDb(db, SQL, params)
+    return !!user
+  }
+
+  changePassword = async (userId, newPassword) => {
+    const db = await connectDb()
+    const SQL = `
+      UPDATE users SET password=? WHERE userId=?
+    `
+    const params = [newPassword, userId]
     return await operateDb(db, SQL, params)
   }
 }

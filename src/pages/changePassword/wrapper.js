@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { Form, Input, Button, message } from 'antd'
+import { useRecoilValue } from 'recoil'
 import Styles from './wrapper.module.less'
 import { changePassword as httpChangePsw } from '../../api'
 import { passwordReg } from '../../utils/reg'
 import { useLogOut } from '../../hooks'
+import { userState } from '../../store'
 
 const Wrapper = () => {
   const [form] = Form.useForm()
   const logOut = useLogOut()
+  const { userId } = useRecoilValue(userState)
   const oldPasswordRules = [
     {
       required: true,
@@ -24,6 +27,16 @@ const Wrapper = () => {
       message:
         'Password must be a combination of letters and numbers, 8 at least and less than 16',
     },
+    ({ getFieldValue }) => ({
+      validator(_, value) {
+        if (!value || getFieldValue('oldPassword') !== value) {
+          return Promise.resolve()
+        }
+        return Promise.reject(
+          new Error('The new password should not be same as the old one')
+        )
+      },
+    }),
   ]
   const newPasswordConfirmRules = [
     {
@@ -32,7 +45,7 @@ const Wrapper = () => {
     },
     ({ getFieldValue }) => ({
       validator(_, value) {
-        if (!value || getFieldValue('password') === value) {
+        if (!value || getFieldValue('newPassword') === value) {
           return Promise.resolve()
         }
         return Promise.reject(
@@ -50,11 +63,11 @@ const Wrapper = () => {
       await form.validateFields()
 
       setIsLoading(true)
-      const { oldPassword, newPassword, newPasswordConfirm } = form.getFieldsValue(true)
+      const { oldPassword, newPassword } = form.getFieldsValue(true)
       const params = {
         oldPassword,
         newPassword,
-        newPasswordConfirm
+        userId
       }
       await httpChangePsw(params)
 
@@ -74,7 +87,7 @@ const Wrapper = () => {
         <Form form={form} name="account" layout="vertical">
           <Form.Item
             name="oldPassword"
-            label="Old Password"
+            label="Previous Password"
             rules={oldPasswordRules}
             validateTrigger="onBlur"
           >

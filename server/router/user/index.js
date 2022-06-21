@@ -2,7 +2,8 @@ const {
   signupHandler,
   validateEmailHandler,
   signinHandler,
-  getUserDataHandler
+  getUserDataHandler,
+  changePasswordHandler
 } = require('../../service/index')
 
 module.exports = [
@@ -25,5 +26,10 @@ module.exports = [
     method: 'get',
     path: '/user/getUserData',
     handler: getUserDataHandler
+  },
+  {
+    method: 'post',
+    path: '/user/changePassword',
+    handler: changePasswordHandler
   }
 ]

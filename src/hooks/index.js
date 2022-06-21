@@ -21,6 +21,7 @@ export const useFetchUser = () => {
   }, [setUserState])
 }
 
+// logout logic
 export const useLogOut = () => {
   const navigate = useNavigate()
   const setUserState = useSetRecoilState(userState)

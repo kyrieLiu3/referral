@@ -30,19 +30,23 @@ const validataSignin = (username, password, role) => {
   )
 }
 
+const validateChangePassword = (password) => {
+  return passwordReg.test(password)
+}
+
 exports.signupHandler = async ctx => {
   try {
     const { username, password, role, invitationCode } = ctx.request.body
     if (validateSignup(username, password, role, invitationCode)) {
       // success
-      const validateEmailRes = await User.validateEmail(username)
-      if (validateEmailRes.length) {
+      const isEmailValid = await User.validateEmail(username)
+      if (isEmailValid) {
         ctx.status = 400
-        return false
+      } else {
+        const userId = uuid()
+        await User.signup(username, password, role, userId)
+        ctx.body = { ...successStructure, data: { username } }
       }
-      const userId = uuid()
-      const results = await User.signup(username, password, role, userId)
-      ctx.body = { ...successStructure, data: results }
     } else {
       ctx.status = 400
     }
@@ -60,8 +64,8 @@ exports.validateEmailHandler = async ctx => {
       ctx.status = 400
       return false
     }
-    const results = await User.validateEmail(email)
-    if (results.length) {
+    const isEmailValid = await User.validateEmail(email)
+    if (isEmailValid) {
       ctx.body = { ...successStructure, data: false }
     } else {
       ctx.body = { ...successStructure, data: true }
@@ -77,12 +81,14 @@ exports.signinHandler = async ctx => {
     const { username, password, role } = ctx.request.body
     if (validataSignin(username, password, role)) {
       // success
-      const results = await User.signin(username, password, role)
-      if (results.length) {
-        const [user] = results
+      const user = await User.signin(username, password, role)
+      if (user) {
         const timestamp = +new Date()
         const token = await generateToken({ userId: user.userId, timestamp })
-        ctx.body = { ...successStructure, data: { username, userId: user.userId, role, token } }
+        ctx.body = {
+          ...successStructure,
+          data: { username, userId: user.userId, role, token },
+        }
       } else {
         ctx.body = {
           ...failStructure,
@@ -102,6 +108,25 @@ exports.getUserDataHandler = async ctx => {
   try {
     const { userId, username, role } = ctx.state.user
     ctx.body = { ...successStructure, data: { userId, username, role } }
+  } catch (error) {
+    ctx.status = 500
+  }
+}
+
+exports.changePasswordHandler = async ctx => {
+  try {
+    const { userId, oldPassword, newPassword } = ctx.request.body
+    if (validateChangePassword(newPassword)) {
+      const isPswCorrect = await User.validatePassword(userId, oldPassword)
+      if (isPswCorrect) {
+        await User.changePassword(userId, newPassword)
+        ctx.body = successStructure
+      } else {
+        ctx.body = { ...failStructure, data: 'Previous password is incorrect' }
+      }
+    } else {
+      ctx.status = 400
+    }
   } catch (error) {
     ctx.status = 500
   }
