@@ -14,3 +14,8 @@ export const httpSignin = async (params) => {
   const { data } = await http.post('/user/signin', params)
   return data
 }
+
+export const getUserData = async () => {
+  const { data } = await http.get('/user/getUserData')
+  return data
+}

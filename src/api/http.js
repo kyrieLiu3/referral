@@ -4,6 +4,19 @@ const http = Axios.create({
   baseURL,
   timeout: 60000,
 })
+const whiteList = ['/user/signin', '/user/signup', '/user/validateEmail']
+
+// interceptor for every http request
+http.interceptors.request.use((config) => {
+  // success
+  console.log('success', config)
+  // add authorization field if url not included in white lists
+  if (!whiteList.includes(config.url)) {
+    const token = localStorage.getItem('token') || ''
+    token && (config.headers.common['Authorization'] = token)
+  }
+  return config
+})
 
 // interceptor for ervry http response
 http.interceptors.response.use(

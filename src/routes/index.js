@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { routes } from './routeConfig'
+import { useFetchUser } from '../hooks'
 
 const routePages = routes.map(route => {
   const routePage = (
@@ -9,6 +10,7 @@ const routePages = routes.map(route => {
 })
 
 const RouterWrapper = () => {
+  useFetchUser()
   return (
     <BrowserRouter>
       <Routes>{routePages}</Routes>

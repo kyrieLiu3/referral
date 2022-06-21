@@ -2,6 +2,7 @@ const {
   signupHandler,
   validateEmailHandler,
   signinHandler,
+  getUserDataHandler
 } = require('../../service/index')
 
 module.exports = [
@@ -20,4 +21,9 @@ module.exports = [
     path: '/user/signin',
     handler: signinHandler,
   },
+  {
+    method: 'get',
+    path: '/user/getUserData',
+    handler: getUserDataHandler
+  }
 ]

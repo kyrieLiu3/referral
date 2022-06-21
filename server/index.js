@@ -5,7 +5,7 @@ const { historyApiFallback } = require('koa2-connect-history-api-fallback')
 const bodyParser = require('koa-bodyparser');
 const router = require('./router/index.js')
 const initDatabase = require('./database/init')
-const { crossOrigin } = require('./middleware')
+const { crossOrigin, validateJWT } = require('./middleware')
 
 const staticPath = path.join(__dirname, '../build')
 
@@ -15,6 +15,7 @@ initDatabase()
 app.use(historyApiFallback({ whiteList: ['/api'] }))
 app.use(serve(staticPath))
 app.use(bodyParser());
+app.use(validateJWT)
 app.use(crossOrigin)
 app.use(router.routes())
 app.use(router.allowedMethods())

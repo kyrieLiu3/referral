@@ -41,9 +41,9 @@ const Wrapper = () => {
     },
   ]
 
-  const handleToken = ({ username, token }) => {
+  const handleToken = ({ token, ...userData }) => {
     localStorage.setItem('token', token)
-    setUserRocoilState(user => ({ ...user, username, token }))
+    setUserRocoilState(user => ({ ...user, ...userData }))
   }
 
   const handleReset = () => form.resetFields()

@@ -1,10 +1,11 @@
+import React from 'react'
 import { Navigate } from 'react-router-dom'
-import NotFound from '../components/notFound'
 import Home from '../pages/home'
-import SignUp from '../pages/signUp'
-import SignIn from '../pages/signIn'
-import PositionList from '../pages/positionList'
-import PositionDetail from '../pages/positionDetail'
+import NotFound from '../components/notFound'
+const SignUp = React.lazy(() => import('../pages/signUp'))
+const SignIn = React.lazy(() => import('../pages/signIn'))
+const PositionList = React.lazy(() => import('../pages/positionList'))
+const PositionDetail = React.lazy(() => import('../pages/positionDetail'))
 
 export const routes = [
   {
@@ -13,19 +14,35 @@ export const routes = [
   },
   {
     path: '/signup',
-    element: <SignUp></SignUp>,
+    element: (
+      <React.Suspense fallback={<NotFound />}>
+        <SignUp />
+      </React.Suspense>
+    ),
   },
   {
     path: '/signin',
-    element: <SignIn></SignIn>,
+    element: (
+      <React.Suspense fallback={<NotFound />}>
+        <SignIn />
+      </React.Suspense>
+    ),
   },
   {
     path: '/positions',
-    element: <PositionList></PositionList>,
+    element: (
+      <React.Suspense fallback={<NotFound />}>
+        <PositionList />
+      </React.Suspense>
+    ),
   },
   {
     path: '/position/:id',
-    element: <PositionDetail></PositionDetail>,
+    element: (
+      <React.Suspense fallback={<NotFound />}>
+        <PositionDetail />
+      </React.Suspense>
+    ),
   },
   {
     path: '/',

@@ -1,10 +1,10 @@
+const { v4: uuid } = require('uuid')
 const User = require('../../controller/users')
 const {
   successStructure,
   failStructure,
   mailReg,
   passwordReg,
-  setErrorResponse,
 } = require('../utils')
 const { EMPLOYEE, HRG, INVITATION_CODE } = require('../../database/constant')
 const { generateToken } = require('../../jwt')
@@ -37,17 +37,18 @@ exports.signupHandler = async ctx => {
       // success
       const validateEmailRes = await User.validateEmail(username)
       if (validateEmailRes.length) {
-        setErrorResponse(ctx, 400)
+        ctx.status = 400
         return false
       }
-      const results = await User.signup(username, password, role)
+      const userId = uuid()
+      const results = await User.signup(username, password, role, userId)
       ctx.body = { ...successStructure, data: results }
     } else {
-      setErrorResponse(ctx, 400)
+      ctx.status = 400
     }
   } catch (error) {
     console.log(error)
-    setErrorResponse(ctx, 500)
+    ctx.status = 500
   }
 }
 
@@ -56,7 +57,7 @@ exports.validateEmailHandler = async ctx => {
     const { email } = ctx.request.query
     if (!validateValidataEmail(email)) {
       // fail
-      setErrorResponse(ctx, 400)
+      ctx.status = 400
       return false
     }
     const results = await User.validateEmail(email)
@@ -67,21 +68,20 @@ exports.validateEmailHandler = async ctx => {
     }
   } catch (error) {
     console.log(error)
-    setErrorResponse(ctx, 500)
+    ctx.status = 500
   }
 }
 
 exports.signinHandler = async ctx => {
   try {
-    console.log(ctx.request, 'ctx.request')
     const { username, password, role } = ctx.request.body
     if (validataSignin(username, password, role)) {
       // success
       const results = await User.signin(username, password, role)
       if (results.length) {
         const [user] = results
-        const token = await generateToken({ userId: user.id })
-        ctx.body = { ...successStructure, data: { username, token } }
+        const token = await generateToken({ userId: user.userId })
+        ctx.body = { ...successStructure, data: { username, userId: user.userId, role, token } }
       } else {
         ctx.body = {
           ...failStructure,
@@ -89,10 +89,19 @@ exports.signinHandler = async ctx => {
         }
       }
     } else {
-      setErrorResponse(ctx, 400)
+      ctx.status = 400
     }
   } catch (error) {
     console.log(error)
-    setErrorResponse(ctx, 500)
+    ctx.status = 500
+  }
+}
+
+exports.getUserDataHandler = async ctx => {
+  try {
+    const { userId, username, role } = ctx.state.user
+    ctx.body = { ...successStructure, data: { userId, username, role } }
+  } catch (error) {
+    ctx.status = 500
   }
 }
