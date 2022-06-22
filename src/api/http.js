@@ -9,7 +9,7 @@ const whiteList = ['/user/signin', '/user/signup', '/user/validateEmail']
 // interceptor for every http request
 http.interceptors.request.use((config) => {
   // success
-  console.log('success', config)
+  console.log('REQUEST SUCCESSFULLY', config)
   // add authorization field if url not included in white lists
   if (!whiteList.includes(config.url)) {
     const token = localStorage.getItem('token') || ''
@@ -22,7 +22,7 @@ http.interceptors.request.use((config) => {
 http.interceptors.response.use(
   response => {
     // success
-    console.log('success', response)
+    console.log('RESPONSE SUCCESSFULLY', response)
     const { status, data: { code } } = response
     if (status === 200 && code === 0) {
       return Promise.resolve(response)
@@ -32,7 +32,7 @@ http.interceptors.response.use(
   },
   error => {
     // fail
-    console.log('fail', error)
+    console.log('RESPONSE FAIL', error)
     const { response: { status, data } } = error
     if (status === 404) {
       return Promise.reject('Request Not Found')

@@ -4,24 +4,13 @@ import Styles from './wrapper.module.less'
 import Filter from './components/filter'
 import Positions from './components/Positions'
 import Paginator from './components/paginator'
-
-const POSITION_TYPE_OPS = [
-  { title: 'All', value: 'all' },
-  { title: 'Tech', value: 'tech' },
-  { title: 'Non-Tech', value: 'non-tech' },
-]
-
-const CITY_OPS = [
-  { title: 'All', value: 'all' },
-  { title: 'Chengdu', value: 'chendu' },
-  { title: 'Xian', value: 'xian' },
-]
+import { POSITION_TYPE_OPS, CITY_OPS, ALL } from '../../config'
 
 const PositionLisyWrapper = () => {
   const navigate = useNavigate()
   const [filterData, setFilterData] = useState({
-    positionType: 'all',
-    city: 'all',
+    positionType: ALL,
+    city: ALL,
     position: '',
   })
   const handleFilterDataChange = data =>

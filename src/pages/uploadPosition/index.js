@@ -1,17 +1,17 @@
 import React from 'react'
-import MyPostWrapper from './wrapper'
+import UploadPositionWrapper from './wrapper'
 import Header from '../../components/header'
 import Content from '../../components/content'
 
-const MyPost = () => {
+const UploadPosition = () => {
   return (
     <React.Fragment>
       <Header></Header>
       <Content>
-        <MyPostWrapper></MyPostWrapper>
+        <UploadPositionWrapper></UploadPositionWrapper>
       </Content>
     </React.Fragment>
   )
 }
 
-export default MyPost
+export default UploadPosition

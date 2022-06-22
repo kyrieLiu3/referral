@@ -7,7 +7,8 @@ const SignIn = React.lazy(() => import('../pages/signIn'))
 const PositionList = React.lazy(() => import('../pages/positionList'))
 const PositionDetail = React.lazy(() => import('../pages/positionDetail'))
 const ChangePsw = React.lazy(() => import('../pages/changePassword'))
-const MyPost = React.lazy(() => import('../pages/myPost'))
+const MyUpload = React.lazy(() => import('../pages/myUpload'))
+const UploadPosition = React.lazy(() => import('../pages/uploadPosition'))
 
 export const routes = [
   {
@@ -58,7 +59,15 @@ export const routes = [
     path: '/myPost',
     element: (
       <React.Suspense fallback={<NotFound />}>
-        <MyPost />
+        <MyUpload />
+      </React.Suspense>
+    ),
+  },
+  {
+    path: '/uploadPosition',
+    element: (
+      <React.Suspense fallback={<NotFound />}>
+        <UploadPosition />
       </React.Suspense>
     ),
   },
