@@ -9,10 +9,20 @@ const createUserTable = db => {
   db.run(SQL, () => console.log('[Database] Create users table'))
 }
 
+// init positions table
+const createPositionsTable = db => {
+  const SQL = `
+  CREATE TABLE IF NOT EXISTS positions
+  (id INTEGER PRIMARY KEY, positionName Text, positionType TEXT, city TEXT, positionDescribtion TEXT, positionResposibilites TEXT, positionQualifications TEXT, positionId TEXT, candidateIds TEXT)
+  `
+  db.run(SQL, () => console.log('[Database] Create positions table'))
+}
+
 const initDatabase = async () => {
   try {
     const db = await connectDb()
     createUserTable(db)
+    createPositionsTable(db)
   } catch (error) {
     console.log(error)
   }
