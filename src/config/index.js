@@ -1,4 +1,4 @@
-export const ALL = 'all'
+import { ALL } from '../constant'
 
 export const POSITION_TYPE_OPS = [
   { title: 'All', value: ALL },
@@ -11,4 +11,3 @@ export const CITY_OPS = [
   { title: 'Chengdu', value: 'chendu' },
   { title: 'Xian', value: 'xian' },
 ]
-

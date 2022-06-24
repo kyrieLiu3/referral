@@ -6,8 +6,15 @@ const {
   changePasswordHandler
 } = require('./user')
 
+const { uploadPositionHandler, getUploadedPositionHandler } = require('./position')
+
+// user
 exports.signupHandler = signupHandler
 exports.validateEmailHandler = validateEmailHandler
 exports.signinHandler = signinHandler
 exports.getUserDataHandler = getUserDataHandler
 exports.changePasswordHandler = changePasswordHandler
+
+// position
+exports.uploadPositionHandler = uploadPositionHandler
+exports.getUploadedPositionHandler = getUploadedPositionHandler

@@ -5,28 +5,39 @@ class Position {
     positionName,
     positionType,
     city,
-    positionDescribtion,
-    positionResposibilites,
+    positionDescription,
+    positionResponsibilities,
     positionQualifications,
     positionId,
+    userId,
     candidateIds = [],
   }) => {
     const db = await connectDb()
     const SQL = `
-      INSERT INTO positions(positionName, positionType, city, positionDescribtion, positionResposibilites, positionQualifications, positionId, candidateIds) VALUES(?, ?, ?, ?, ?, ?, ?, ?) 
+      INSERT INTO positions(positionName, positionType, city, positionDescription, positionResponsibilities, positionQualifications, userId, positionId, candidateIds) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) 
     `
     const params = [
       positionName,
       positionType,
       city,
-      positionDescribtion,
-      positionResposibilites,
+      positionDescription,
+      positionResponsibilities,
       positionQualifications,
+      userId,
       positionId,
       JSON.stringify(candidateIds),
     ]
     return await operateDb(db, SQL, params)
   }
+
+  getPositionsByUserId = async (userId) => {
+    const db = await connectDb()
+    const SQL = `
+      SELECT * FROM positions WHERE userId=?
+    `
+    const params = [userId]
+    return await operateDb(db, SQL, params)
+  }
 }
 
-export default new Position()
+module.exports = new Position()

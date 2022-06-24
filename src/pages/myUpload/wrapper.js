@@ -1,35 +1,60 @@
-import React from 'react'
-import { Button, Table /* Space */ } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Button, Table, Space, message } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-import Styles from './wrapper.module.less'
 import { useNavigate } from 'react-router-dom'
+import Styles from './wrapper.module.less'
+import { getUploadedPositions } from '../../api'
 
 const MyUploadWrapper = () => {
   const navigate = useNavigate()
+  const [tableData, setTableData] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+
+  // get positions
+  useEffect(() => {
+    const fetchTableData = async () => {
+      try {
+        setIsLoading(true)
+        const params = {}
+        const { data } = await getUploadedPositions(params)
+        setTableData(data)
+      } catch (error) {
+        console.log(error)
+        message.error(error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchTableData()
+  }, [])
+
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Position Name',
+      dataIndex: 'positionName',
+      key: 'positionName',
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'Position Type',
+      dataIndex: 'positionType',
+      key: 'positionType',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'City',
+      dataIndex: 'city',
+      key: 'city',
     },
-    /* {
+    {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
+          <Button type="link">detail</Button>
+          <Button type="link">candidates</Button>
+          <Button type="link">edit</Button>
         </Space>
       ),
-    }, */
+    },
   ]
 
   return (
@@ -44,7 +69,13 @@ const MyUploadWrapper = () => {
         </Button>
       </div>
       <div className={Styles.myUpload}>
-        <Table columns={columns}></Table>
+        <Table
+          sticky
+          rowKey="positionId"
+          columns={columns}
+          dataSource={tableData}
+          loading={isLoading}
+        ></Table>
       </div>
     </div>
   )

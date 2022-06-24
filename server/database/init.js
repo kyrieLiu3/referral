@@ -13,7 +13,7 @@ const createUserTable = db => {
 const createPositionsTable = db => {
   const SQL = `
   CREATE TABLE IF NOT EXISTS positions
-  (id INTEGER PRIMARY KEY, positionName Text, positionType TEXT, city TEXT, positionDescribtion TEXT, positionResposibilites TEXT, positionQualifications TEXT, positionId TEXT, candidateIds TEXT)
+  (id INTEGER PRIMARY KEY, positionName Text, positionType TEXT, city TEXT, positionDescription TEXT, positionResponsibilities TEXT, positionQualifications TEXT, userId TEXT, positionId TEXT, candidateIds TEXT)
   `
   db.run(SQL, () => console.log('[Database] Create positions table'))
 }

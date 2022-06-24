@@ -1,5 +1,7 @@
-const user = require('./user/index.js')
+const user = require('./user')
+const position = require('./position')
 
 module.exports = [
-  ...user
+  ...user,
+  ...position
 ]

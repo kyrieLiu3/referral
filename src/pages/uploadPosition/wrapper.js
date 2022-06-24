@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Form, Input, Button, Radio, message } from 'antd'
 import { useRecoilValue } from 'recoil'
 import Styles from './wrapper.module.less'
-import { POSITION_TYPE_OPS, CITY_OPS, ALL } from '../../config'
+import { POSITION_TYPE_OPS, CITY_OPS } from '../../config'
+import { ALL } from '../../constant'
 import { userState } from '../../store'
 import { uploadPosition } from '../../api'
 import { useNavigate } from 'react-router-dom'
@@ -20,13 +21,13 @@ const UploadPositionWrapper = () => {
       message: 'Please input position name',
     },
   ]
-  const positionDescribtionRules = [
+  const positionDescriptionRules = [
     {
       required: true,
-      message: 'Please input position describtion',
+      message: 'Please input position description',
     },
   ]
-  const positionResposibilitiesRules = [
+  const positionResponsibilitiesRules = [
     {
       required: true,
       message: 'Please input position responsibilities',
@@ -50,24 +51,24 @@ const UploadPositionWrapper = () => {
       setIsloading(true)
       const {
         positionName,
-        positionDescribtion,
+        positionDescription,
         positionQualifications,
-        positionResposibilities,
+        positionResponsibilities,
         positionType,
         city,
       } = form.getFieldsValue(true)
       const params = {
         positionName,
-        positionDescribtion,
+        positionDescription,
         positionQualifications,
-        positionResposibilities,
+        positionResponsibilities,
         positionType,
         city,
         userId,
       }
       await uploadPosition(params)
       message.success('Position uploaded successfully')
-      navigate('/myPost')
+      navigate('/myUpload')
     } catch (error) {
     } finally {
       setIsloading(false)
@@ -113,26 +114,26 @@ const UploadPositionWrapper = () => {
             </Radio.Group>
           </Form.Item>
           <Form.Item
-            name="positionDescribtion"
-            label="Position Describtion"
-            rules={positionDescribtionRules}
+            name="positionDescription"
+            label="Position Description"
+            rules={positionDescriptionRules}
             validateTrigger="onBlur"
           >
             <Input.TextArea
               rows={4}
-              placeholder="Enter the position describtion"
+              placeholder="Enter the position description"
               allowClear
             />
           </Form.Item>
           <Form.Item
-            name="positionResposibilities"
-            label="Position Resposibilities"
-            rules={positionResposibilitiesRules}
+            name="positionResponsibilities"
+            label="Position Responsibilities"
+            rules={positionResponsibilitiesRules}
             validateTrigger="onBlur"
           >
             <Input.TextArea
               rows={4}
-              placeholder="Enter the position resposibilities"
+              placeholder="Enter the position responsibilities"
               allowClear
             />
           </Form.Item>

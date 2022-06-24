@@ -4,7 +4,8 @@ import Styles from './wrapper.module.less'
 import Filter from './components/filter'
 import Positions from './components/Positions'
 import Paginator from './components/paginator'
-import { POSITION_TYPE_OPS, CITY_OPS, ALL } from '../../config'
+import { POSITION_TYPE_OPS, CITY_OPS } from '../../config'
+import { ALL } from '../../constant'
 
 const PositionLisyWrapper = () => {
   const navigate = useNavigate()

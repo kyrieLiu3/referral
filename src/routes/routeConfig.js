@@ -56,7 +56,7 @@ export const routes = [
     ),
   },
   {
-    path: '/myPost',
+    path: '/myUpload',
     element: (
       <React.Suspense fallback={<NotFound />}>
         <MyUpload />

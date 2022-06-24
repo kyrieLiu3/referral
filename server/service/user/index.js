@@ -115,7 +115,8 @@ exports.getUserDataHandler = async ctx => {
 
 exports.changePasswordHandler = async ctx => {
   try {
-    const { userId, oldPassword, newPassword } = ctx.request.body
+    const { oldPassword, newPassword } = ctx.request.body
+    const { userId } = ctx.state.user
     if (validateChangePassword(newPassword)) {
       const isPswCorrect = await User.validatePassword(userId, oldPassword)
       if (isPswCorrect) {

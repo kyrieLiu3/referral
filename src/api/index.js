@@ -1,5 +1,6 @@
 import http from './http'
 
+// user start 👇
 export const httpSignup = async (params) => {
   const { data } = await http.post('/user/signup', params)
   return data
@@ -24,8 +25,16 @@ export const changePassword = async (params) => {
   const { data } = await http.post('/user/changePassword', params)
   return data
 }
+// user end 👆
 
+// position start 👇
 export const uploadPosition = async (params) => {
-  const { data } = await http.post('/user/uploadPosition', params)
+  const { data } = await http.post('/position/uploadPosition', params)
   return data
 }
+
+export const getUploadedPositions = async (params) => {
+  const { data } = await http.get('position/uploadedPositions', { params })
+  return data
+}
+// position end 👆

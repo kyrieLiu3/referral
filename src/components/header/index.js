@@ -10,7 +10,7 @@ import { EMPLOYEE } from '../../constant'
 const LOG_OUT = 'LOG_OUT'
 const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
 const MY_REFERRAL = 'MY_REFERRAL'
-const MY_POST = 'MY_POST'
+const MY_UPLOAD = 'MY_UPLOAD'
 
 const Header = () => {
   const { username, role } = useRecoilValue(userState)
@@ -21,7 +21,7 @@ const Header = () => {
     LOG_OUT: () => logOut(),
     CHANGE_PASSWORD: () => navigate('/changePassword'),
     MY_REFERRAL: () => navigate('/myReferral'),
-    MY_POST: () => navigate('/myPost')
+    MY_UPLOAD: () => navigate('/myUpload')
   }
 
   const handleMenuClick = ({ key }) => {
@@ -33,7 +33,7 @@ const Header = () => {
       items={[
         {
           label: role === EMPLOYEE ? 'My Referral' : 'My Post',
-          key: role === EMPLOYEE ? MY_REFERRAL: MY_POST,
+          key: role === EMPLOYEE ? MY_REFERRAL: MY_UPLOAD,
         },
         {
           label: 'Change Password',

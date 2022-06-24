@@ -90,7 +90,7 @@ const Wrapper = () => {
       await httpSignup(params)
 
       message.success('Register successfully')
-      navigate('/signin')
+      navigate(`/signin?role=${role}`)
     } catch (error) {
       console.log(error)
       message.error(error)
@@ -173,7 +173,7 @@ const Wrapper = () => {
               <Button
                 type="link"
                 style={{ padding: '4px' }}
-                onClick={() => navigate('/signin')}
+                onClick={() => navigate(`/signin?role=${role}`)}
               >
                 sign in
               </Button>

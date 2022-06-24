@@ -116,7 +116,7 @@ const Wrapper = () => {
               <Button
                 type="link"
                 style={{ padding: '4px' }}
-                onClick={() => navigate('/signup')}
+                onClick={() => navigate(`/signup?role=${role}`)}
               >
                 sign up
               </Button>
