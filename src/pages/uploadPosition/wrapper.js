@@ -1,18 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, Input, Button, Radio, message } from 'antd'
-import { useRecoilValue } from 'recoil'
 import Styles from './wrapper.module.less'
 import { POSITION_TYPE_OPS, CITY_OPS } from '../../config'
 import { ALL } from '../../constant'
-import { userState } from '../../store'
-import { uploadPosition } from '../../api'
-import { useNavigate } from 'react-router-dom'
+import { uploadPosition, getPosition, updatePosition } from '../../api'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const UploadPositionWrapper = () => {
   const navigate = useNavigate()
-  const { userId } = useRecoilValue(userState)
+  const [routeQuery] = useSearchParams()
   const [form] = Form.useForm()
   const [isLoading, setIsloading] = useState(false)
+  const [isEdit] = useState(routeQuery.get('isEdit') || false)
+  const [positionId] = useState(routeQuery.get('positionId') || '')
+
+  useEffect(() => {
+    if (isEdit) {
+      const updateFormValue = async (positionId) => {
+        try {
+          const params = { positionId }
+          const { data } = await getPosition(params)
+          form.setFieldsValue(data)
+        } catch (error) {
+          console.log(error)
+          message.error(error)
+        }
+      }
+      updateFormValue(positionId)
+    }
+  }, [isEdit, positionId, form])
   
   const formInitialValue = { positionType: ALL, city: ALL }
   const positionNameRules = [
@@ -45,7 +61,7 @@ const UploadPositionWrapper = () => {
     form.resetFields()
   }
 
-  const handleUploadPosition = async () => {
+  const handleUploadOrUpdatePosition = async () => {
     try {
       await form.validateFields()
       setIsloading(true)
@@ -64,9 +80,10 @@ const UploadPositionWrapper = () => {
         positionResponsibilities,
         positionType,
         city,
-        userId,
       }
-      await uploadPosition(params)
+      isEdit && (params.positionId = positionId)
+      const handler = isEdit ? updatePosition : uploadPosition
+      await handler(params)
       message.success('Position uploaded successfully')
       navigate('/myUpload')
     } catch (error) {
@@ -159,10 +176,10 @@ const UploadPositionWrapper = () => {
             <Button
               type="primary"
               style={{ width: '100%', marginBottom: '8px' }}
-              onClick={handleUploadPosition}
+              onClick={handleUploadOrUpdatePosition}
               loading={isLoading}
             >
-              Upload
+              { isEdit ? 'Update' : 'Upload' }
             </Button>
           </Form.Item>
         </Form>

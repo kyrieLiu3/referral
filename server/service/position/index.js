@@ -3,30 +3,6 @@ const Position = require('../../controller/positions')
 const { successStructure, /* failStructure */ } = require('../utils')
 // const { EMPLOYEE, HRG, INVITATION_CODE } = require('../../database/constant')
 
-/* const validateSignup = (username, password, role, invitationCode) => {
-  return !(
-    !mailReg.test(username) ||
-    !passwordReg.test(password) ||
-    (role !== EMPLOYEE && role !== HRG) ||
-    (role === HRG && invitationCode !== INVITATION_CODE)
-  )
-}
-
-const validateValidataEmail = email => {
-  return mailReg.test(email)
-}
-
-const validataSignin = (username, password, role) => {
-  return !(
-    !mailReg.test(username) ||
-    !passwordReg.test(password) ||
-    (role !== EMPLOYEE && role !== HRG)
-  )
-}
-
-const validateChangePassword = (password) => {
-  return passwordReg.test(password)
-} */
 const validateUploadPosition = ({
   positionName,
   positionDescription,
@@ -67,8 +43,43 @@ exports.uploadPositionHandler = async ctx => {
 exports.getUploadedPositionHandler = async ctx => {
   try {
     const { userId } = ctx.state.user
-    const positions = await Position.getPositionsByUserId(userId)
-    ctx.body = { ...successStructure, data: positions }
+    if (userId) {
+      const positions = await Position.getPositionsByUserId(userId)
+      ctx.body = { ...successStructure, data: positions }
+    } else {
+      ctx.status = 400
+    }
+  } catch (error) {
+    console.log(error)
+    ctx.status = 500
+  }
+}
+
+exports.getPositionhandler = async ctx => {
+  try {
+    const { positionId } = ctx.request.query
+    console.log(positionId, 'positionId')
+    if (positionId) {
+      const [position] = await Position.getPositionById(positionId)
+      ctx.body = { ...successStructure, data: position }
+    } else {
+      ctx.status = 400
+    }
+  } catch (error) {
+    console.log(error)
+    ctx.status = 500
+  }
+}
+
+exports.updatePositionHandler = async ctx => {
+  try {
+    const params = { ...ctx.request.body }
+    if (validateUploadPosition) {
+      await Position.updatePositionById(params)
+      ctx.body = { ...successStructure, data: true }
+    } else {
+      ctx.status = 400
+    }
   } catch (error) {
     console.log(error)
     ctx.status = 500

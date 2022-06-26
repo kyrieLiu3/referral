@@ -1,5 +1,9 @@
-const { uploadPositionHandler } = require('../../service/index')
-const { getUploadedPositionHandler } = require('../../service/index')
+const {
+  uploadPositionHandler,
+  getUploadedPositionHandler,
+  getPositionhandler,
+  updatePositionHandler,
+} = require('../../service/index')
 
 module.exports = [
   {
@@ -11,5 +15,15 @@ module.exports = [
     method: 'get',
     path: '/position/uploadedPositions',
     handler: getUploadedPositionHandler,
+  },
+  {
+    method: 'get',
+    path: '/position/getPosition',
+    handler: getPositionhandler,
+  },
+  {
+    method: 'post',
+    path: '/position/updatePosition',
+    handler: updatePositionHandler,
   },
 ]

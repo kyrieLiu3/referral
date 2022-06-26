@@ -34,7 +34,17 @@ export const uploadPosition = async (params) => {
 }
 
 export const getUploadedPositions = async (params) => {
-  const { data } = await http.get('position/uploadedPositions', { params })
+  const { data } = await http.get('/position/uploadedPositions', { params })
+  return data
+}
+
+export const getPosition =  async (params) => {
+  const { data } = await http.get('/position/getPosition', { params })
+  return data
+}
+
+export const updatePosition =  async (params) => {
+  const { data } = await http.post('/position/updatePosition', params)
   return data
 }
 // position end 👆

@@ -3,10 +3,15 @@ const {
   validateEmailHandler,
   signinHandler,
   getUserDataHandler,
-  changePasswordHandler
+  changePasswordHandler,
 } = require('./user')
 
-const { uploadPositionHandler, getUploadedPositionHandler } = require('./position')
+const {
+  uploadPositionHandler,
+  getUploadedPositionHandler,
+  getPositionhandler,
+  updatePositionHandler
+} = require('./position')
 
 // user
 exports.signupHandler = signupHandler
@@ -18,3 +23,5 @@ exports.changePasswordHandler = changePasswordHandler
 // position
 exports.uploadPositionHandler = uploadPositionHandler
 exports.getUploadedPositionHandler = getUploadedPositionHandler
+exports.getPositionhandler = getPositionhandler
+exports.updatePositionHandler = updatePositionHandler

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Button, Table, Space, message } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +9,8 @@ const MyUploadWrapper = () => {
   const navigate = useNavigate()
   const [tableData, setTableData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const wrapperRef = useRef(null)
+  const [tableHeight, setTableHeight] = useState(0)
 
   // get positions
   useEffect(() => {
@@ -27,6 +29,14 @@ const MyUploadWrapper = () => {
     }
     fetchTableData()
   }, [])
+
+  useEffect(() => {
+    // compute available height of the table
+    const height = wrapperRef.current.offsetHeight - 32 - 55 - 64
+    setTableHeight(height)
+  }, [])
+
+  const handleEdit = (positionId) => navigate(`/uploadPosition?isEdit=true&positionId=${positionId}`)
 
   const columns = [
     {
@@ -47,11 +57,12 @@ const MyUploadWrapper = () => {
     {
       title: 'Action',
       key: 'action',
+      width: 300,
       render: (_, record) => (
         <Space size="middle">
           <Button type="link">detail</Button>
           <Button type="link">candidates</Button>
-          <Button type="link">edit</Button>
+          <Button type="link" onClick={() => handleEdit(record.positionId)}>edit</Button>
         </Space>
       ),
     },
@@ -68,13 +79,14 @@ const MyUploadWrapper = () => {
           Upload Position
         </Button>
       </div>
-      <div className={Styles.myUpload}>
+      <div className={Styles.myUpload} ref={wrapperRef}>
         <Table
           sticky
           rowKey="positionId"
           columns={columns}
           dataSource={tableData}
           loading={isLoading}
+          scroll={{ y: tableHeight }}
         ></Table>
       </div>
     </div>
