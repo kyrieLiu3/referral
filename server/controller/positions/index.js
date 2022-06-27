@@ -72,6 +72,18 @@ class Position {
     ]
     return await operateDb(db, SQL, params)
   }
+
+  getPositionsByConditions = async ({ positionType, city, positionName }) => {
+    const db = await connectDb()
+    // dont know how to deal with sql sentence within quote, so put the variable into sql instead of paramters
+    const SQL = `
+      SELECT * FROM positions WHERE ${ positionType ? 'positionType=? AND ' : '' }${ city ? 'city=? AND ' : '' }positionName LIKE '%${positionName}%'
+    `
+    const params = []
+    if (city) params.unshift(city)
+    if (positionType) params.unshift(positionType)
+    return await operateDb(db, SQL, params)
+  }
 }
 
 module.exports = new Position()

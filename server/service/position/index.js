@@ -1,7 +1,7 @@
 const { v4: uuid } = require('uuid')
 const Position = require('../../controller/positions')
 const { successStructure, /* failStructure */ } = require('../utils')
-// const { EMPLOYEE, HRG, INVITATION_CODE } = require('../../database/constant')
+const { ALL, DEFAULT_PAGE_SIZE } = require('../../database/constant')
 
 const validateUploadPosition = ({
   positionName,
@@ -80,6 +80,23 @@ exports.updatePositionHandler = async ctx => {
     } else {
       ctx.status = 400
     }
+  } catch (error) {
+    console.log(error)
+    ctx.status = 500
+  }
+}
+
+exports.getPositionsByConditionsHandler = async ctx => {
+  try {
+    const { positionType, city, positionName = '', pageNumber = 1, pageSize = DEFAULT_PAGE_SIZE } = { ...ctx.request.query }
+    const params = { positionType, city, positionName }
+    if (positionType === ALL) Reflect.deleteProperty(params, 'positionType')
+    if (city === ALL) Reflect.deleteProperty(params, 'city')
+    const results = await Position.getPositionsByConditions(params)
+    console.log(results, 'results')
+    const total = results.length
+    const positions = results.slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
+    ctx.body = { ...successStructure, data: { positions, pageNumber, pageSize, total }}
   } catch (error) {
     console.log(error)
     ctx.status = 500

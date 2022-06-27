@@ -2,11 +2,12 @@ import React from 'react'
 import Styles from './styles/paginator.module.less'
 import { Pagination } from 'antd'
 
-const Paginator = () => {
+const Paginator = ({ total = 0, onChange = () => {} }) => {
   return (
     <div className={Styles.paginator}>
       <Pagination
-        total={100}
+        total={total}
+        onChange={onChange}
         showSizeChanger
         showQuickJumper
         showTotal={total => `Total ${total} items`}

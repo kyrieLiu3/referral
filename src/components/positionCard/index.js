@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Tag } from 'antd'
 import Styles from './positionCard.module.less'
 
-const PositionCard = ({ onCardClick }) => {
+const PositionCard = ({ onCardClick, position = {} }) => {
   const descriptionRef = useRef()
   const [isShowEllipsis, setIsShowEllipsis] = useState(false)
   useEffect(() => {
@@ -11,11 +11,11 @@ const PositionCard = ({ onCardClick }) => {
     setIsShowEllipsis(showEllipsis)
   }, [descriptionRef])
   return (
-    <div className={Styles.card} onClick={() => onCardClick('123')}>
-      <div className={Styles.cardTitle}>This is Card Title</div>
+    <div className={Styles.card} onClick={() => onCardClick(position.positionId)}>
+      <div className={Styles.cardTitle}>{position.positionName}</div>
       <div className={Styles.tagWrapper}>
-        <Tag color="volcano">Xian</Tag>
-        <Tag color="geekblue">Tech</Tag>
+        <Tag color="volcano">{position.city}</Tag>
+        <Tag color="geekblue">{position.positionType}</Tag>
       </div>
       <div
         className={`${Styles.cardDescription} ${
@@ -23,14 +23,7 @@ const PositionCard = ({ onCardClick }) => {
         }`}
         ref={descriptionRef}
       >
-        This is job description and it will reapeat many times. This is job
-        description and it will reapeat many times. This is job description and
-        it will reapeat many times. This is job description and it will reapeat
-        many times. This is job description and it will reapeat many times. This
-        is job description and it will reapeat many times. This is job
-        description and it will reapeat many times. This is job description and
-        it will reapeat many times. This is job description and it will reapeat
-        many times. This is job description and it will reapeat many times.
+        {position.positionDescription}
       </div>
     </div>
   )

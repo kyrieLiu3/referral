@@ -47,4 +47,9 @@ export const updatePosition =  async (params) => {
   const { data } = await http.post('/position/updatePosition', params)
   return data
 }
+
+export const getPositionsByConditions = async (params) => {
+  const { data } = await http.get('/position/getPositionsByConditions', { params })
+  return data
+}
 // position end 👆

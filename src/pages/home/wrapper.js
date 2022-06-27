@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
@@ -6,10 +6,11 @@ import { useRecoilValue } from 'recoil'
 import Typed from '../../components/typed'
 import Styles from './wrapper.module.less'
 import { HRG, EMPLOYEE } from '../../constant'
-import { userSelector } from '../../store'
+import { userState } from '../../store'
 
 const HomeWrapper = () => {
-  const username = useRecoilValue(userSelector)
+  const user = useRecoilValue(userState)
+  const isHrg = useMemo(() => user.role === HRG, [user])
   const navigate = useNavigate()
   const size = 'large'
   const options = {
@@ -24,16 +25,16 @@ const HomeWrapper = () => {
           <Typed options={options}></Typed>
         </div>
         <div className={Styles.detailWrapper}>
-          {username ? (
+          {user.username ? (
             <Button
               className={Styles.findout}
               type="default"
               size="large"
               shape="round"
-              onClick={() => navigate('/positions')}
+              onClick={() => navigate(isHrg ? '/myUpload' : '/positions')}
               icon={<SearchOutlined />}
             >
-              Find Out Referral Positions
+              { isHrg ? 'Check out Uploaded Positions' : 'Find Out Referral Positions' } 
             </Button>
           ) : (
             <React.Fragment>

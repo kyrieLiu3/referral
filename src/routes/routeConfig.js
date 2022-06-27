@@ -48,7 +48,7 @@ export const routes = [
     ),
   },
   {
-    path: '/position/:id',
+    path: '/position/:positionId',
     element: (
       <React.Suspense fallback={<NotFound />}>
         <PositionDetail />

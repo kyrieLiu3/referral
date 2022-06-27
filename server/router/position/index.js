@@ -3,6 +3,7 @@ const {
   getUploadedPositionHandler,
   getPositionhandler,
   updatePositionHandler,
+  getPositionsByConditionsHandler
 } = require('../../service/index')
 
 module.exports = [
@@ -25,5 +26,10 @@ module.exports = [
     method: 'post',
     path: '/position/updatePosition',
     handler: updatePositionHandler,
+  },
+  {
+    method: 'get',
+    path: '/position/getPositionsByConditions',
+    handler: getPositionsByConditionsHandler,
   },
 ]

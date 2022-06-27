@@ -10,7 +10,8 @@ const {
   uploadPositionHandler,
   getUploadedPositionHandler,
   getPositionhandler,
-  updatePositionHandler
+  updatePositionHandler,
+  getPositionsByConditionsHandler
 } = require('./position')
 
 // user
@@ -25,3 +26,4 @@ exports.uploadPositionHandler = uploadPositionHandler
 exports.getUploadedPositionHandler = getUploadedPositionHandler
 exports.getPositionhandler = getPositionhandler
 exports.updatePositionHandler = updatePositionHandler
+exports.getPositionsByConditionsHandler = getPositionsByConditionsHandler
