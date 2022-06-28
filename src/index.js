@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals'
 import 'normalize.css'
 import 'moment/locale/zh-cn'
 import 'antd/dist/antd.css'
+import './style/index.less'
 
 moment.locale('zh-cn')
 

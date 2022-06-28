@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { useNavigate } from 'react-router-dom'
 import { getUserData } from '../api'
 import { userState } from '../store'
 import { userInitState } from '../store/user/user'
+import { Spin } from 'antd'
 
 // fetch user state when initialized
 export const useFetchUser = () => {
@@ -31,4 +32,30 @@ export const useLogOut = () => {
     navigate('/signin')
   }
   return logOut
+}
+
+export const useLoading = isLoading => {
+  const Loading = ({ isLoading }) => (
+    <Spin
+      wrapperClassName='spinWrapper'
+      style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        display: isLoading ? 'block' : 'none',
+      }}
+      size="large"
+      tip="loading..."
+    ></Spin>
+  )
+  const ref = useRef(null)
+  useLayoutEffect(() => {
+    if (isLoading) {
+      ref.current.classList.add('loadingWrapper')
+    } else {
+      ref.current.classList.remove('loadingWrapper')
+    }
+  })
+  return [ref, Loading]
 }

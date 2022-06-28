@@ -34,7 +34,7 @@ const HomeWrapper = () => {
               onClick={() => navigate(isHrg ? '/myUpload' : '/positions')}
               icon={<SearchOutlined />}
             >
-              { isHrg ? 'Check out Uploaded Positions' : 'Find Out Referral Positions' } 
+              { isHrg ? 'Check Out Uploaded Positions' : 'Find Out Referral Positions' } 
             </Button>
           ) : (
             <React.Fragment>

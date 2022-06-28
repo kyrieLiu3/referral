@@ -7,9 +7,13 @@ import Paginator from './components/paginator'
 import { POSITION_TYPE_OPS, CITY_OPS } from '../../config'
 import { ALL } from '../../constant'
 import { getPositionsByConditions } from '../../api'
+import { useLoading } from '../../hooks'
+import { message } from 'antd'
 
 const PositionLisyWrapper = () => {
   const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
+  const [ref, Loading] = useLoading(isLoading)
 
   const [positions, setPositions] = useState([])
   const [filterData, setFilterData] = useState({
@@ -36,9 +40,17 @@ const PositionLisyWrapper = () => {
 
   useEffect(() => {
     const fetchPositions = async params => {
-      const { data: { positions, total } } = await getPositionsByConditions(params)
-      setPositions(positions)
-      setTotal(total)
+      try {
+        setIsLoading(true)
+        const { data: { positions, total } } = await getPositionsByConditions(params)
+        setPositions(positions)
+        setTotal(total)
+      } catch (error) {
+        console.log(error)
+        message.error(error)
+      } finally {
+        setIsLoading(false)
+      }
     }
     fetchPositions(conditions)
   }, [conditions])
@@ -49,7 +61,8 @@ const PositionLisyWrapper = () => {
   const handleCardClick = positionId => navigate(`/position/${positionId}`)
 
   return (
-    <div className={Styles.positionsListWrapper}>
+    <div className={Styles.positionsListWrapper} ref={ref}>
+      <Loading isLoading={isLoading}></Loading>
       <Filter
         positionOps={POSITION_TYPE_OPS}
         cityOps={CITY_OPS}

@@ -36,6 +36,7 @@ const MyUploadWrapper = () => {
     setTableHeight(height)
   }, [])
 
+  const handleCheck = (positionId) => navigate(`/position/${positionId}`)
   const handleEdit = (positionId) => navigate(`/uploadPosition?isEdit=true&positionId=${positionId}`)
 
   const columns = [
@@ -60,7 +61,7 @@ const MyUploadWrapper = () => {
       width: 300,
       render: (_, record) => (
         <Space size="middle">
-          <Button type="link">detail</Button>
+          <Button type="link" onClick={() => handleCheck(record.positionId)}>detail</Button>
           <Button type="link">candidates</Button>
           <Button type="link" onClick={() => handleEdit(record.positionId)}>edit</Button>
         </Space>

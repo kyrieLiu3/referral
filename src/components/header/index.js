@@ -69,9 +69,6 @@ const Header = () => {
             </Button>
           </React.Fragment>
         )}
-        <Button type="link" onClick={() => handleNavigate('/positions')}>
-          Position List
-        </Button>
       </div>
     </header>
   )
