@@ -14,7 +14,7 @@ const {
   getPositionsByConditionsHandler
 } = require('./position')
 
-const { uploadResumeHandler } = require('./candidate')
+const { uploadResumeHandler } = require('./resume')
 
 // user
 exports.signupHandler = signupHandler

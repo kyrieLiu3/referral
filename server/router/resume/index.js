@@ -3,7 +3,7 @@ const { uploadResumeHandler } = require('../../service/index')
 module.exports = [
   {
     method: 'post',
-    path: '/candidate/uploadResume',
+    path: '/resume/uploadResume',
     handler: uploadResumeHandler,
   }
 ]

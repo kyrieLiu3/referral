@@ -110,7 +110,7 @@ const RecommendPositionWrapper = () => {
               >
                 <Upload.Dragger
                   name="files"
-                  action="http://localhost:8080/api/candidate/uploadResume"
+                  action="http://localhost:8080/api/resume/uploadResume"
                   accept=".doc, .docx, .pdf"
                   maxCount={1}
                 >

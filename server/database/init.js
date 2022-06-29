@@ -18,11 +18,21 @@ const createPositionsTable = db => {
   db.run(SQL, () => console.log('[Database] Create positions table'))
 }
 
+// init resumes table
+const createResumesTable = db => {
+  const SQL = `
+  CREATE TABLE IF NOT EXISTS resumes
+  (id INTEGER PRIMARY KEY, resumeName Text, resumeOriginalName TEXT, resumeId, TEXT)
+  `
+  db.run(SQL, () => console.log('[Database] Create resumes table'))
+}
+
 const initDatabase = async () => {
   try {
     const db = await connectDb()
     createUserTable(db)
     createPositionsTable(db)
+    createResumesTable(db)
   } catch (error) {
     console.log(error)
   }
