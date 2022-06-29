@@ -1,11 +1,11 @@
 const { validateToken } = require('../jwt')
 const User = require('../controller/users')
-const whiteList = ['/api/user/signin', '/api/user/signup', '/api/user/validateEmail']
+const whiteList = ['/api/user/signin', '/api/user/signup', '/api/user/validateEmail', '/api/candidate/uploadResume']
 
 exports.crossOrigin = async (ctx, next) => {
   ctx.response.set('Access-Control-Allow-Origin', '*')
   ctx.response.set('Access-Control-Allow-Method', '*')
-  ctx.response.set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+  ctx.response.set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
   await next()
 }
 

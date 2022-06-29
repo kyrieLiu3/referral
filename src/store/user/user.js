@@ -1,4 +1,4 @@
-import { atom, selector } from 'recoil'
+import { atom } from 'recoil'
 
 const userStateKey = 'USER_ATOM'
 export const userInitState = {
@@ -9,13 +9,4 @@ export const userInitState = {
 export const userState = atom({
   key: userStateKey,
   default: userInitState,
-})
-
-const userSelectorKey = 'USER_SELECTOR'
-export const userSelector = selector({
-  key: userSelectorKey,
-  get: ({ get }) => {
-    const user = get(userState)
-    return user.username
-  },
 })

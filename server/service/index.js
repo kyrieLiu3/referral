@@ -14,6 +14,8 @@ const {
   getPositionsByConditionsHandler
 } = require('./position')
 
+const { uploadResumeHandler } = require('./candidate')
+
 // user
 exports.signupHandler = signupHandler
 exports.validateEmailHandler = validateEmailHandler
@@ -27,3 +29,6 @@ exports.getUploadedPositionHandler = getUploadedPositionHandler
 exports.getPositionhandler = getPositionhandler
 exports.updatePositionHandler = updatePositionHandler
 exports.getPositionsByConditionsHandler = getPositionsByConditionsHandler
+
+// candidate
+exports.uploadResumeHandler = uploadResumeHandler

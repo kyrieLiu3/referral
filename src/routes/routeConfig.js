@@ -1,5 +1,6 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
+import { Spin } from 'antd'
 import Home from '../pages/home'
 import NotFound from '../components/notFound'
 const SignUp = React.lazy(() => import('../pages/signUp'))
@@ -9,6 +10,7 @@ const PositionDetail = React.lazy(() => import('../pages/positionDetail'))
 const ChangePsw = React.lazy(() => import('../pages/changePassword'))
 const MyUpload = React.lazy(() => import('../pages/myUpload'))
 const UploadPosition = React.lazy(() => import('../pages/uploadPosition'))
+const RecommendPosition = React.lazy(() => import('../pages/recommendPosition'))
 
 export const routes = [
   {
@@ -18,7 +20,7 @@ export const routes = [
   {
     path: '/signup',
     element: (
-      <React.Suspense fallback={<NotFound />}>
+      <React.Suspense fallback={<Spin size="large" />}>
         <SignUp />
       </React.Suspense>
     ),
@@ -26,7 +28,7 @@ export const routes = [
   {
     path: '/signin',
     element: (
-      <React.Suspense fallback={<NotFound />}>
+      <React.Suspense fallback={<Spin size="large" />}>
         <SignIn />
       </React.Suspense>
     ),
@@ -34,7 +36,7 @@ export const routes = [
   {
     path: '/positions',
     element: (
-      <React.Suspense fallback={<NotFound />}>
+      <React.Suspense fallback={<Spin size="large" />}>
         <PositionList />
       </React.Suspense>
     ),
@@ -42,7 +44,7 @@ export const routes = [
   {
     path: '/changePassword',
     element: (
-      <React.Suspense fallback={<NotFound />}>
+      <React.Suspense fallback={<Spin size="large" />}>
         <ChangePsw />
       </React.Suspense>
     ),
@@ -50,7 +52,7 @@ export const routes = [
   {
     path: '/position/:positionId',
     element: (
-      <React.Suspense fallback={<NotFound />}>
+      <React.Suspense fallback={<Spin size="large" />}>
         <PositionDetail />
       </React.Suspense>
     ),
@@ -58,7 +60,7 @@ export const routes = [
   {
     path: '/myUpload',
     element: (
-      <React.Suspense fallback={<NotFound />}>
+      <React.Suspense fallback={<Spin size="large" />}>
         <MyUpload />
       </React.Suspense>
     ),
@@ -66,8 +68,16 @@ export const routes = [
   {
     path: '/uploadPosition',
     element: (
-      <React.Suspense fallback={<NotFound />}>
+      <React.Suspense fallback={<Spin size="large" />}>
         <UploadPosition />
+      </React.Suspense>
+    ),
+  },
+  {
+    path: '/recommend',
+    element: (
+      <React.Suspense fallback={<Spin size="large" />}>
+        <RecommendPosition />
       </React.Suspense>
     ),
   },

@@ -42,7 +42,7 @@ const PositionDetailWrapper = () => {
                 <Button type="primary" onClick={() => navigate(`/uploadPosition?isEdit=true&positionId=${position.positionId}`)}>Edit</Button>
               ) : null
             ) : (
-              <Button type="primary">Apply</Button>
+              <Button type="primary" onClick={() => navigate('/recommend', { state: position })}>Apply</Button>
             )}
           </div>
         </div>
