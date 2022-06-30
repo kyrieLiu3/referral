@@ -84,6 +84,26 @@ class Position {
     if (positionType) params.unshift(positionType)
     return await operateDb(db, SQL, params)
   }
+
+  getCandidateIdsByPositionId = async (positionId) => {
+    const db = await connectDb()
+    const SQL = `
+      SELECT candidateIds FROM positions WHERE positionId=?
+    `
+    const [{ candidateIds }] = await operateDb(db, SQL, [positionId])
+    return JSON.parse(candidateIds)
+  }
+
+  updateCandidateIds = async ({ candidateId, positionId }) => {
+    const candidateIds = await this.getCandidateIdsByPositionId(positionId)
+    candidateIds.push(candidateId)
+    const db = await connectDb()
+    const SQL = `
+      UPDATE positions SET candidateIds=? WHERE positionId=?
+    `
+    const params = [JSON.stringify(candidateIds), positionId]
+    return await operateDb(db, SQL, params)
+  }
 }
 
 module.exports = new Position()

@@ -53,3 +53,9 @@ export const getPositionsByConditions = async (params) => {
   return data
 }
 // position end 👆
+
+// candidate start
+export const addCandidate = async (params) => {
+  const { data } = await http.post('/candidate/addCandidate', params)
+  return data
+}

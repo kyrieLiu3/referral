@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Form, Input, Button, Upload } from 'antd'
+import { Form, Input, Button, Upload, message } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 import Styles from './wrapper.module.less'
+import { addCandidate } from '../../api'
 
 const RecommendPositionWrapper = () => {
   const { state: position } = useLocation()
   const [form] = Form.useForm()
   const [isLoading, setIsLoading] = useState(false)
+  const actionUploadPrefix =
+    process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : ''
+  const uploadResumeHeaders = {
+    Authorization: localStorage.getItem('token'),
+  }
 
   const candidateNameRules = [
     {
@@ -21,8 +27,7 @@ const RecommendPositionWrapper = () => {
       message: 'Please Input Candidate Phone Number',
     },
     {
-      pattern:
-        /1^[1](([3][0-9])|([4][0,1,4-9])|([5][0-3,5-9])|([6][2,5,6,7])|([7][0-8])|([8][0-9])|([9][0-3,5-9]))[0-9]{8}$/,
+      pattern: /^1[3456789]\d{9}$/,
       message: 'Please Input Correct Phone Number',
     },
   ]
@@ -39,29 +44,39 @@ const RecommendPositionWrapper = () => {
   const candidateResumeRules = [
     {
       required: true,
-      message: 'Please Upload Candidate Resume'
-    }
+      message: 'Please Upload Candidate Resume',
+    },
   ]
 
-  const normFile = e => {
-    console.log('Upload event:', e)
-    if (Array.isArray(e)) {
-      return e
-    }
-    return e?.fileList
-  }
+  const normFile = e => (Array.isArray(e) ? e : e?.fileList)
   const handleReset = () => form.resetFields()
   const handleSubmit = async () => {
     try {
       await form.validateFields()
+      setIsLoading(true)
+      const {
+        candidateName,
+        candidatePhoneNumber,
+        candidateEmail,
+        candidateResume: [{ name, status, response, uid }],
+      } = form.getFieldsValue(true)
+      const params = {
+        positionId: position.positionId,
+        candidateName,
+        candidatePhoneNumber,
+        candidateEmail,
+        candidateResume: { name, status, response, uid },
+        resumeId: response.data.resumeId,
+      }
+      await addCandidate(params)
+      message.success('Submit Successfully')
     } catch (error) {
       console.log(error)
+    } finally {
+      setIsLoading(false)
     }
   }
-  const onValuesChange = (changedValue, allValue) => {
-    console.log(changedValue, 'changedValue')
-    console.log(allValue, 'allValue')
-  }
+
   return (
     <div className={Styles.recommendPositionWrapper}>
       <div className={Styles.recommendPosition}>
@@ -70,12 +85,7 @@ const RecommendPositionWrapper = () => {
             Target Position:
             <span className={Styles.positionName}>{position.positionName}</span>
           </p>
-          <Form
-            form={form}
-            name="recommend"
-            layout="vertical"
-            onValuesChange={onValuesChange}
-          >
+          <Form form={form} name="recommend" layout="vertical">
             <Form.Item
               name="candidateName"
               label="Name"
@@ -104,15 +114,16 @@ const RecommendPositionWrapper = () => {
               <Form.Item
                 name="candidateResume"
                 valuePropName="fileList"
-                getValueFromEvent={normFile}
                 noStyle
+                getValueFromEvent={normFile}
                 rules={candidateResumeRules}
               >
                 <Upload.Dragger
                   name="files"
-                  action="http://localhost:8080/api/resume/uploadResume"
                   accept=".doc, .docx, .pdf"
                   maxCount={1}
+                  action={`${actionUploadPrefix}/api/resume/uploadResume`}
+                  headers={uploadResumeHeaders}
                 >
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined />
