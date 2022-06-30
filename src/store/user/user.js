@@ -4,7 +4,8 @@ const userStateKey = 'USER_ATOM'
 export const userInitState = {
   username: '',
   userId: '',
-  role: ''
+  role: '',
+  token: ''
 }
 export const userState = atom({
   key: userStateKey,

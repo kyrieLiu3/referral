@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
-import { useSetRecoilState } from 'recoil'
+import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { useNavigate } from 'react-router-dom'
 import { getUserData } from '../api'
 import { userState } from '../store'
@@ -8,18 +8,19 @@ import { Spin } from 'antd'
 
 // fetch user state when initialized
 export const useFetchUser = () => {
-  const setUserState = useSetRecoilState(userState)
+  const setUser = useSetRecoilState(userState)
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const { data } = await getUserData()
-        setUserState(userState => ({ ...userState, ...data }))
+        const token = localStorage.getItem('token')
+        setUser(_user => ({ ..._user, ...data, token }))
       } catch (error) {
         console.log(error, 'USER NOT FOUND')
       }
     }
     fetchUserData()
-  }, [setUserState])
+  }, [setUser])
 }
 
 // logout logic
@@ -32,6 +33,12 @@ export const useLogOut = () => {
     navigate('/signin')
   }
   return logOut
+}
+
+// determine whether current user has auth to visit some special pages or not 
+export const useAuth = () => {
+  const user = useRecoilValue(userState)
+  return !!user.token
 }
 
 export const useLoading = isLoading => {

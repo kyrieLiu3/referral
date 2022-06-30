@@ -10,7 +10,7 @@ import { userState } from '../../store'
 
 const Wrapper = () => {
   const navigate = useNavigate()
-  const setUserRocoilState = useSetRecoilState(userState)
+  const setUser = useSetRecoilState(userState)
   const [form] = Form.useForm()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -43,7 +43,7 @@ const Wrapper = () => {
 
   const handleToken = ({ token, ...userData }) => {
     localStorage.setItem('token', token)
-    setUserRocoilState(user => ({ ...user, ...userData }))
+    setUser(user => ({ ...user, ...userData, token }))
   }
 
   const handleReset = () => form.resetFields()
