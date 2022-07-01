@@ -2,7 +2,6 @@ const Koa = require('koa')
 const serve = require('koa-static')
 const path = require('path')
 const { historyApiFallback } = require('koa2-connect-history-api-fallback')
-// const bodyParser = require('koa-bodyparser')
 const body = require('koa-body')
 const router = require('./router/index.js')
 const initDatabase = require('./database/init')
@@ -15,7 +14,6 @@ initDatabase()
 
 app.use(historyApiFallback({ whiteList: ['/api'] }))
 app.use(serve(staticPath))
-// app.use(bodyParser())
 app.use(
   body({
     multipart: true,
