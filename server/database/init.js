@@ -31,7 +31,7 @@ const createResumesTable = db => {
 const createCandidatesTable = db => {
   const SQL = `
   CREATE TABLE IF NOT EXISTS candidates
-  (id INTEGER PRIMARY KEY, candidateName Text, candidatePhoneNumber TEXT, candidateEmail TEXT, candidateResume TEXT, candidateId TEXT, resumeId TEXT, userId TEXT, positionId TEXT)
+  (id INTEGER PRIMARY KEY, candidateName Text, candidatePhoneNumber TEXT, candidateEmail TEXT, candidateResume TEXT, candidateId TEXT, resumeId TEXT, userId TEXT, positionId TEXT, positionName TEXT)
   `
   db.run(SQL, () => console.log('[Database] Create candidates table'))
 }

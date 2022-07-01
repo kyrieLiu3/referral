@@ -1,16 +1,22 @@
-import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { Form, Input, Button, Upload, message } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 import Styles from './wrapper.module.less'
-import { addCandidate } from '../../api'
+import { addCandidate, getCandidatebyId, updateCandidateById } from '../../api'
 
 const RecommendPositionWrapper = () => {
+  const navigate = useNavigate()
   const { state: position } = useLocation()
   const [form] = Form.useForm()
   const [isLoading, setIsLoading] = useState(false)
+  const [routeQuery] = useSearchParams()
+  const [isEdit] = useState(routeQuery.get('isEdit') || false)
+  const [candidateId] = useState(routeQuery.get('candidateId') || '')
+
   const actionUploadPrefix =
     process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : ''
+
   const uploadResumeHeaders = {
     Authorization: localStorage.getItem('token'),
   }
@@ -48,9 +54,26 @@ const RecommendPositionWrapper = () => {
     },
   ]
 
+  // fetch form data if page is editing status
+  useEffect(() => {
+    if (isEdit) {
+      const updateFormValue = async candidateId => {
+        try {
+          const params = { candidateId }
+          const { data } = await getCandidatebyId(params)
+          form.setFieldsValue(data)
+        } catch (error) {
+          console.log(error)
+          message.error(error)
+        }
+      }
+      updateFormValue(candidateId)
+    }
+  }, [isEdit, candidateId, form])
+
   const normFile = e => (Array.isArray(e) ? e : e?.fileList)
   const handleReset = () => form.resetFields()
-  const handleSubmit = async () => {
+  const handleSubmitOrUpdate = async () => {
     try {
       await form.validateFields()
       setIsLoading(true)
@@ -62,14 +85,18 @@ const RecommendPositionWrapper = () => {
       } = form.getFieldsValue(true)
       const params = {
         positionId: position.positionId,
+        positionName: position.positionName,
         candidateName,
         candidatePhoneNumber,
         candidateEmail,
         candidateResume: { name, status, response, uid },
         resumeId: response.data.resumeId,
       }
-      await addCandidate(params)
+      isEdit && (params.candidateId = candidateId)
+      const handler = isEdit ? updateCandidateById : addCandidate
+      await handler(params)
       message.success('Submit Successfully')
+      navigate('/myReferral')
     } catch (error) {
       console.log(error)
     } finally {
@@ -147,10 +174,10 @@ const RecommendPositionWrapper = () => {
               <Button
                 type="primary"
                 style={{ width: '100%', marginBottom: '8px' }}
-                onClick={handleSubmit}
+                onClick={handleSubmitOrUpdate}
                 loading={isLoading}
               >
-                Submit
+                {isEdit ? 'Update' : 'Submit'}
               </Button>
             </Form.Item>
           </Form>

@@ -21,7 +21,7 @@ const Header = () => {
     LOG_OUT: () => logOut(),
     CHANGE_PASSWORD: () => navigate('/changePassword'),
     MY_REFERRAL: () => navigate('/myReferral'),
-    MY_UPLOAD: () => navigate('/myUpload')
+    MY_UPLOAD: () => navigate('/myUpload'),
   }
 
   const handleMenuClick = ({ key }) => {
@@ -32,8 +32,8 @@ const Header = () => {
       onClick={handleMenuClick}
       items={[
         {
-          label: role === EMPLOYEE ? 'My Referral' : 'My Post',
-          key: role === EMPLOYEE ? MY_REFERRAL: MY_UPLOAD,
+          label: role === EMPLOYEE ? 'My Referral' : 'My Upload',
+          key: role === EMPLOYEE ? MY_REFERRAL : MY_UPLOAD,
         },
         {
           label: 'Change Password',

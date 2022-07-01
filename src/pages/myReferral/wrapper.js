@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Button, Table, Space, message } from 'antd'
-import { UploadOutlined } from '@ant-design/icons'
+import { RightSquareOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import Styles from './wrapper.module.less'
-import { getUploadedPositions } from '../../api'
+import { getCandidatesByUserId } from '../../api'
 
-const MyUploadWrapper = () => {
+const MyReferralWrapper = () => {
   const navigate = useNavigate()
   const [tableData, setTableData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
@@ -17,8 +17,7 @@ const MyUploadWrapper = () => {
     const fetchTableData = async () => {
       try {
         setIsLoading(true)
-        const params = {}
-        const { data } = await getUploadedPositions(params)
+        const { data } = await getCandidatesByUserId()
         setTableData(data)
       } catch (error) {
         console.log(error)
@@ -36,38 +35,48 @@ const MyUploadWrapper = () => {
     setTableHeight(height)
   }, [])
 
-  const handleCheck = positionId => navigate(`/position/${positionId}`)
-  const handleEdit = positionId =>
-    navigate(`/uploadPosition?isEdit=true&positionId=${positionId}`)
+  // FIXME: Fix this logic block
+  const handleDownResume = candidateId => {}
+  const handleEdit = ({ candidateId, positionId, positionName }) =>
+    navigate(`/recommend?isEdit=true&candidateId=${candidateId}`, {
+      state: { positionId, positionName },
+    })
 
   const columns = [
     {
-      title: 'Position Name',
+      title: 'Candidate Name',
+      dataIndex: 'candidateName',
+      key: 'candidateName',
+    },
+    {
+      title: 'Target Position',
       dataIndex: 'positionName',
       key: 'positionName',
     },
     {
-      title: 'Position Type',
-      dataIndex: 'positionType',
-      key: 'positionType',
+      title: 'Phone Number',
+      dataIndex: 'candidatePhoneNumber',
+      key: 'candidatePhoneNumber',
     },
     {
-      title: 'City',
-      dataIndex: 'city',
-      key: 'city',
+      title: 'Email',
+      dataIndex: 'candidateEmail',
+      key: 'candidateEmail',
     },
     {
       title: 'Action',
       key: 'action',
-      width: 300,
+      width: 240,
       render: (_, record) => (
         <Space size="middle">
-          <Button type="link" onClick={() => handleCheck(record.positionId)}>
-            Detail
-          </Button>
-          <Button type="link">Candidates</Button>
-          <Button type="link" onClick={() => handleEdit(record.positionId)}>
+          <Button type="link" onClick={() => handleEdit(record)}>
             Edit
+          </Button>
+          <Button
+            type="link"
+            onClick={() => handleDownResume(record.candidateId)}
+          >
+            Download Resume
           </Button>
         </Space>
       ),
@@ -75,17 +84,17 @@ const MyUploadWrapper = () => {
   ]
 
   return (
-    <div className={Styles.myUploadWrapper}>
-      <div className={Styles.myUploadAction}>
+    <div className={Styles.myReferralWrapper}>
+      <div className={Styles.myReferralAction}>
         <Button
           type="primary"
-          icon={<UploadOutlined />}
-          onClick={() => navigate('/uploadPosition')}
+          icon={<RightSquareOutlined />}
+          onClick={() => navigate('/positions')}
         >
-          Upload Position
+          Go Referral
         </Button>
       </div>
-      <div className={Styles.myUpload} ref={wrapperRef}>
+      <div className={Styles.myReferral} ref={wrapperRef}>
         <Table
           sticky
           rowKey="positionId"
@@ -99,4 +108,4 @@ const MyUploadWrapper = () => {
   )
 }
 
-export default MyUploadWrapper
+export default MyReferralWrapper

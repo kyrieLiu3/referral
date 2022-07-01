@@ -11,12 +11,17 @@ const {
   getUploadedPositionHandler,
   getPositionhandler,
   updatePositionHandler,
-  getPositionsByConditionsHandler
+  getPositionsByConditionsHandler,
 } = require('./position')
 
 const { uploadResumeHandler } = require('./resume')
 
-const { addCandidateHandler } = require('./candidate')
+const {
+  addCandidateHandler,
+  getCandidatesByUserIdHandler,
+  getCandidatebyIdHandler,
+  updateCandidateByIdHandler,
+} = require('./candidate')
 
 // user
 exports.signupHandler = signupHandler
@@ -37,3 +42,6 @@ exports.uploadResumeHandler = uploadResumeHandler
 
 // candidate
 exports.addCandidateHandler = addCandidateHandler
+exports.getCandidatesByUserIdHandler = getCandidatesByUserIdHandler
+exports.getCandidatebyIdHandler = getCandidatebyIdHandler
+exports.updateCandidateByIdHandler = updateCandidateByIdHandler
