@@ -14,7 +14,7 @@ const {
   getPositionsByConditionsHandler,
 } = require('./position')
 
-const { uploadResumeHandler } = require('./resume')
+const { uploadResumeHandler, downResumeHandler } = require('./resume')
 
 const {
   addCandidateHandler,
@@ -39,6 +39,7 @@ exports.getPositionsByConditionsHandler = getPositionsByConditionsHandler
 
 // resume
 exports.uploadResumeHandler = uploadResumeHandler
+exports.downResumeHandler = downResumeHandler
 
 // candidate
 exports.addCandidateHandler = addCandidateHandler

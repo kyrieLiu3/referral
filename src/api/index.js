@@ -56,6 +56,15 @@ export const getPositionsByConditions = async params => {
 }
 // position end 👆
 
+// resume start
+export const downloadResume = async params => {
+  const data = await http.post('/resume/downloadResume', params, {
+    responseType: 'blob'
+  })
+  return data
+}
+// resume end
+
 // candidate start
 export const addCandidate = async params => {
   const { data } = await http.post('/candidate/addCandidate', params)
@@ -76,3 +85,4 @@ export const updateCandidateById = async params => {
   const { data } = await http.post('/candidate/updateCandidateById', params)
   return data
 }
+// candidate end

@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import { resolveResHeader } from '../utils'
 const baseURL = 'http://localhost:8080/api'
 const http = Axios.create({
   baseURL,
@@ -23,6 +24,11 @@ http.interceptors.response.use(
   response => {
     // success
     console.log('RESPONSE SUCCESSFULLY', response)
+    if (response.config.responseType === 'blob') {
+      const filename = resolveResHeader(response.headers['content-disposition'])['filename']
+      const _response = { data: response.data, filename: decodeURIComponent(filename).replace(/"/g, '') }
+      return Promise.resolve(_response)
+    }
     const { status, data: { code } } = response
     if (status === 200 && code === 0) {
       return Promise.resolve(response)

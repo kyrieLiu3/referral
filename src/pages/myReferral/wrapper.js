@@ -3,7 +3,8 @@ import { Button, Table, Space, message } from 'antd'
 import { RightSquareOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import Styles from './wrapper.module.less'
-import { getCandidatesByUserId } from '../../api'
+import { getCandidatesByUserId, downloadResume } from '../../api'
+import { download } from '../../utils'
 
 const MyReferralWrapper = () => {
   const navigate = useNavigate()
@@ -35,8 +36,14 @@ const MyReferralWrapper = () => {
     setTableHeight(height)
   }, [])
 
-  // FIXME: Fix this logic block
-  const handleDownResume = candidateId => {}
+  const handleDownResume = async candidateId => {
+    try {
+      const { data, filename } = await downloadResume({ candidateId })
+      download(data, filename)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const handleEdit = ({ candidateId, positionId, positionName }) =>
     navigate(`/recommend?isEdit=true&candidateId=${candidateId}`, {
       state: { positionId, positionName },

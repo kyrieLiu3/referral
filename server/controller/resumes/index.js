@@ -9,6 +9,15 @@ class Resume {
     const params = [resumeName, resumeOriginalName, resumeId]
     return await operateDb(db, SQL, params)
   }
+
+  getResumeById = async (resumeId) => {
+    const db = await connectDb()
+    const SQL = `
+      SELECT * FROM resumes WHERE resumeId=?
+    `
+    const [resume] = await operateDb(db, SQL, [resumeId])
+    return resume
+  }
 }
 
 module.exports = new Resume()
