@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Button, Table, Space, message } from 'antd'
+import { Button, Table, Space, message, Modal } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 import Styles from './wrapper.module.less'
 import { getUploadedPositions } from '../../api'
+import CandidateTable from '../../components/candidateTable'
 
 const MyUploadWrapper = () => {
   const navigate = useNavigate()
@@ -11,6 +12,9 @@ const MyUploadWrapper = () => {
   const [isLoading, setIsLoading] = useState(false)
   const wrapperRef = useRef(null)
   const [tableHeight, setTableHeight] = useState(0)
+  const [visible, setVisible] = useState(false)
+  const [selectedPositionId, setSelectedPositionId] = useState('')
+  const [selectedPositionName, setSelectedPositionName] = useState('')
 
   // get positions
   useEffect(() => {
@@ -37,7 +41,12 @@ const MyUploadWrapper = () => {
   }, [])
 
   const handleCheck = positionId => navigate(`/position/${positionId}`)
-  const handleEdit = positionId =>
+  const handleCheckCandidates = ({ positionId, positionName }) => {
+    setVisible(true)
+    setSelectedPositionId(positionId)
+    setSelectedPositionName(positionName)
+  }
+  const handleEdit = positionId => 
     navigate(`/uploadPosition?isEdit=true&positionId=${positionId}`)
 
   const columns = [
@@ -65,7 +74,7 @@ const MyUploadWrapper = () => {
           <Button type="link" onClick={() => handleCheck(record.positionId)}>
             Detail
           </Button>
-          <Button type="link">Candidates</Button>
+          <Button type="link" onClick={() => handleCheckCandidates(record)}>Candidates</Button>
           <Button type="link" onClick={() => handleEdit(record.positionId)}>
             Edit
           </Button>
@@ -95,6 +104,17 @@ const MyUploadWrapper = () => {
           scroll={{ y: tableHeight }}
         ></Table>
       </div>
+      <Modal
+        title={`Candidates For ${selectedPositionName}`}
+        centered
+        footer={null}
+        visible={visible}
+        onOk={() => setVisible(false)}
+        onCancel={() => setVisible(false)}
+        width={1000}
+      >
+        <CandidateTable tableHeight={800} positionId={selectedPositionId}></CandidateTable>
+      </Modal>
     </div>
   )
 }

@@ -1,10 +1,11 @@
-import { useEffect, useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, useMemo } from 'react'
 import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { useNavigate } from 'react-router-dom'
 import { getUserData } from '../api'
 import { userState } from '../store'
 import { userInitState } from '../store/user/user'
 import { Spin } from 'antd'
+import { HRG } from '../constant'
 
 // fetch user state when initialized
 export const useFetchUser = () => {
@@ -65,4 +66,10 @@ export const useLoading = isLoading => {
     }
   })
   return [ref, Loading]
+}
+
+export const useIsHrg = () => {
+  const user = useRecoilValue(userState)
+  const isHrg = useMemo(() => user.role === HRG, [user])
+  return isHrg
 }

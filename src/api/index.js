@@ -85,4 +85,9 @@ export const updateCandidateById = async params => {
   const { data } = await http.post('/candidate/updateCandidateById', params)
   return data
 }
+
+export const getCandidatesByPositionId = async params => {
+  const { data } = await http.get('/candidate/getCandidatesByPositionId', { params })
+  return data
+}
 // candidate end

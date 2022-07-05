@@ -3,6 +3,7 @@ const {
   getCandidatesByUserIdHandler,
   getCandidatebyIdHandler,
   updateCandidateByIdHandler,
+  getCandidatesByPositionIdHandler
 } = require('../../service/index')
 
 module.exports = [
@@ -25,5 +26,10 @@ module.exports = [
     method: 'post',
     path: '/candidate/updateCandidateById',
     handler: updateCandidateByIdHandler,
+  },
+  {
+    method: 'get',
+    path: '/candidate/getCandidatesByPositionId',
+    handler: getCandidatesByPositionIdHandler,
   },
 ]

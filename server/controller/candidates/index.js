@@ -79,6 +79,14 @@ class Candidate {
     ]
     return await operateDb(db, SQL, params)
   }
+
+  getCandidatesByPositionId = async (positionId) => {
+    const db = await connectDb()
+    const SQL = `
+      SELECT * FROM candidates WHERE positionId=?
+    `
+    return await operateDb(db, SQL, [positionId])
+  }
 }
 
 module.exports = new Candidate()

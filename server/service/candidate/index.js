@@ -88,3 +88,18 @@ exports.updateCandidateByIdHandler = async ctx => {
     ctx.status = 500
   }
 }
+
+exports.getCandidatesByPositionIdHandler = async ctx => {
+  try {
+    const { positionId } = ctx.request.query
+    if (positionId) {
+      const candidates = await Candidate.getCandidatesByPositionId(positionId)
+      ctx.body = { ...successStructure, data: candidates }
+    } else {
+      ctx.status = 400
+    }
+  } catch (error) {
+    console.log(error)
+    ctx.status = 500
+  }
+}
