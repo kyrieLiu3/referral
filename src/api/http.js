@@ -13,7 +13,7 @@ http.interceptors.request.use((config) => {
   console.log('REQUEST SUCCESSFULLY', config)
   // add authorization field if url not included in white lists
   if (!whiteList.includes(config.url)) {
-    const token = localStorage.getItem('token') || ''
+    const token = localStorage.getItem('token')
     token && (config.headers.common['Authorization'] = token)
   }
   return config

@@ -105,7 +105,7 @@ const MyUploadWrapper = () => {
         ></Table>
       </div>
       <Modal
-        title={`Candidates For ${selectedPositionName}`}
+        title={`Candidates for ${selectedPositionName}`}
         centered
         footer={null}
         visible={visible}

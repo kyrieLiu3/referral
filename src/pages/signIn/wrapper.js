@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import Styles from './wrapper.module.less'
 import { HRG, EMPLOYEE } from '../../constant'
-import { passwordReg } from '../../utils/reg'
+import { passwordReg, emailReg } from '../../utils/reg'
 import { httpSignin } from '../../api'
 import { userState } from '../../store'
 
@@ -24,7 +24,7 @@ const Wrapper = () => {
       message: 'Please input your E-mail',
     },
     {
-      type: 'email',
+      pattern: emailReg,
       message: 'Please input valid E-mail',
     },
   ]
@@ -70,6 +70,7 @@ const Wrapper = () => {
   return (
     <div className={Styles.signinWrapper}>
       <div className={Styles.signinContent}>
+        <h2 className={Styles.signinTitle}>Sign In</h2>
         <Tabs
           centered
           defaultActiveKey={role}

@@ -10,5 +10,5 @@ exports.failStructure = {
   data: {},
 }
 
-exports.mailReg = /^\w+@(\w+.)\w{2,4}$/
+exports.mailReg = /^[\w.]+@(\w+.)\w{2,4}$/
 exports.passwordReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/

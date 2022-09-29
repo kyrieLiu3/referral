@@ -159,7 +159,7 @@ const RecommendPositionWrapper = () => {
                     Click or drag file to this area to upload
                   </p>
                   <p className="ant-upload-hint">
-                    Support for a single or bulk upload.
+                    Support for a single upload only.
                   </p>
                 </Upload.Dragger>
               </Form.Item>

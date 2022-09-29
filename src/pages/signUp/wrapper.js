@@ -106,6 +106,7 @@ const Wrapper = () => {
   return (
     <div className={Styles.signupWrapper}>
       <div className={Styles.signupContent}>
+        <h2 className={Styles.signupTitle}>Sign Up</h2>
         <Tabs
           centered
           defaultActiveKey={role}
