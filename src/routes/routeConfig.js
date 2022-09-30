@@ -12,6 +12,7 @@ const MyUpload = React.lazy(() => import('../pages/myUpload'))
 const UploadPosition = React.lazy(() => import('../pages/uploadPosition'))
 const RecommendPosition = React.lazy(() => import('../pages/recommendPosition'))
 const MyReferral = React.lazy(() => import('../pages/myReferral'))
+const MyCandidate = React.lazy(() => import('../pages/myCandidate'))
 
 const LoadingSpin = () => {
   const style = {
@@ -102,6 +103,14 @@ export const routes = [
     element: (
       <React.Suspense fallback={<LoadingSpin></LoadingSpin>}>
         <MyReferral />
+      </React.Suspense>
+    ),
+  },
+  {
+    path: '/MyCandidate',
+    element: (
+      <React.Suspense fallback={<LoadingSpin></LoadingSpin>}>
+        <MyCandidate />
       </React.Suspense>
     ),
   },

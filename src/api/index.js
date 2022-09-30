@@ -56,16 +56,16 @@ export const getPositionsByConditions = async params => {
 }
 // position end 👆
 
-// resume start
+// resume start 👇
 export const downloadResume = async params => {
   const data = await http.post('/resume/downloadResume', params, {
     responseType: 'blob'
   })
   return data
 }
-// resume end
+// resume end 👆
 
-// candidate start
+// candidate start 👇
 export const addCandidate = async params => {
   const { data } = await http.post('/candidate/addCandidate', params)
   return data
@@ -90,4 +90,9 @@ export const getCandidatesByPositionId = async params => {
   const { data } = await http.get('/candidate/getCandidatesByPositionId', { params })
   return data
 }
-// candidate end
+
+export const getCandidatesByHrgUserId = async params => {
+  const { data } = await http.get('/candidate/getCandidatesByHrgUserId', { params })
+  return data
+}
+// candidate end 👆

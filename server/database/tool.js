@@ -22,7 +22,8 @@ exports.operateDb = (db, SQL, params) => {
       if (error) reject(error)
       else {
         db.close()
-        console.log(`[Database] excute SQL: \n ${SQL} \n ${params} \n Successfully!`)
+        console.log('============================= DB EXCUTE ===========================\n')
+        console.log(`[Database] excute SQL: \n ${SQL} \n PARAMS: ${params} \n Successfully! \n ==================================================`)
         resolve(results)
       }
     })

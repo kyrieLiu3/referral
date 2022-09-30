@@ -1,7 +1,7 @@
 const Router = require('@koa/router')
-const router = new Router()
 const routes = require('./config')
 
+const router = new Router()
 router.prefix('/api')
 
 routes.map((route) => {

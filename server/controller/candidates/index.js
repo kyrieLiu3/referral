@@ -80,12 +80,23 @@ class Candidate {
     return await operateDb(db, SQL, params)
   }
 
-  getCandidatesByPositionId = async (positionId) => {
+  getCandidatesByPositionId = async positionId => {
     const db = await connectDb()
     const SQL = `
       SELECT * FROM candidates WHERE positionId=?
     `
     return await operateDb(db, SQL, [positionId])
+  }
+
+  getCandidatesByCandidateIds = async (candidateIds = []) => {
+    const db = await connectDb()
+    const SQL = `
+      SELECT * FROM candidates WHERE candidateId IN (${candidateIds
+        .map(id => `'${id}'`)
+        .toString()})
+    `
+    console.info(SQL, '<=> SQL')
+    return await operateDb(db, SQL)
   }
 }
 

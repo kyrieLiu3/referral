@@ -2,15 +2,17 @@ import React from 'react'
 import Header from '../header'
 import Content from '../content'
 import Styles from './forbidden.module.less'
+import { useNavigate } from 'react-router-dom'
 
 const Forbidden = () => {
+  const navigate = useNavigate()
   return (
     <React.Fragment>
       <Header></Header>
       <Content>
         <div className={Styles.forbiddenContainer}>
           <p className={Styles.forbidden}>
-            Opps, Forbidden! <span className={Styles.signin}>Sign In</span>
+            Opps, action is forbidden! <span className={Styles.signin} onClick={() => navigate('/signin')}>Sign In</span>
           </p>
         </div>
       </Content>

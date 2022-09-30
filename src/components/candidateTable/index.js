@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Table, Space, message } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { getCandidatesByUserId, downloadResume, getCandidatesByPositionId } from '../../api'
+import { useRecoilValue } from 'recoil'
+import {
+  getCandidatesByUserId,
+  downloadResume,
+  getCandidatesByPositionId,
+  getCandidatesByHrgUserId,
+} from '../../api'
 import { download } from '../../utils'
 import { useIsHrg } from '../../hooks'
+import { userState } from '../../store/user/user'
 
-const CandidateTable = ({ tableHeight, positionId }) => {
+const CandidateTable = ({ tableHeight, positionId, isByUserId = false }) => {
   // This table component is for two places, one is for 'myReferral' page with employee, and the other is for 'myUpload' page with HRG.
   // The positionId is for getCandidatesByPositionId api param, and we integrated the downloading resume functionality in this component
   const navigate = useNavigate()
   const isHrg = useIsHrg()
+  const { userId } = useRecoilValue(userState)
   const [tableData, setTableData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
@@ -18,8 +26,14 @@ const CandidateTable = ({ tableHeight, positionId }) => {
     const fetchTableData = async () => {
       try {
         setIsLoading(true)
-        const handler = isHrg ? getCandidatesByPositionId : getCandidatesByUserId
-        const { data } = await handler(isHrg ? { positionId } : undefined)
+        const handler = isHrg
+          ? isByUserId
+            ? getCandidatesByHrgUserId
+            : getCandidatesByPositionId
+          : getCandidatesByUserId
+        const { data } = await handler(
+          isHrg ? (isByUserId ? { userId } : { positionId }) : undefined
+        )
         setTableData(data)
       } catch (error) {
         console.log(error)
@@ -29,7 +43,7 @@ const CandidateTable = ({ tableHeight, positionId }) => {
       }
     }
     fetchTableData()
-  }, [positionId, isHrg])
+  }, [positionId, isHrg, userId, isByUserId])
 
   const handleDownResume = async candidateId => {
     try {
@@ -90,7 +104,7 @@ const CandidateTable = ({ tableHeight, positionId }) => {
   return (
     <Table
       sticky
-      rowKey="positionId"
+      rowKey="candidateId"
       columns={columns}
       dataSource={tableData}
       loading={isLoading}

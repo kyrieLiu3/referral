@@ -39,6 +39,14 @@ class Position {
     return await operateDb(db, SQL, params)
   }
 
+  getCandidateIdsByUserId = async userId => {
+    const db = await connectDb()
+    const SQL = `SELECT candidateIds FROM positions WHERE userId=?`
+    const params = [userId]
+    const positions = await operateDb(db, SQL, params)
+    return positions.map(({ candidateIds }) => JSON.parse(candidateIds)).flat()
+  }
+
   getPositionById = async positionId => {
     const db = await connectDb()
     const SQL = `
@@ -77,7 +85,9 @@ class Position {
     const db = await connectDb()
     // dont know how to deal with sql sentence within quote, so put the variable into sql instead of paramters
     const SQL = `
-      SELECT * FROM positions WHERE ${ positionType ? 'positionType=? AND ' : '' }${ city ? 'city=? AND ' : '' }positionName LIKE '%${positionName}%'
+      SELECT * FROM positions WHERE ${
+        positionType ? 'positionType=? AND ' : ''
+      }${city ? 'city=? AND ' : ''}positionName LIKE '%${positionName}%'
     `
     const params = []
     if (city) params.unshift(city)
@@ -85,7 +95,7 @@ class Position {
     return await operateDb(db, SQL, params)
   }
 
-  getCandidateIdsByPositionId = async (positionId) => {
+  getCandidateIdsByPositionId = async positionId => {
     const db = await connectDb()
     const SQL = `
       SELECT candidateIds FROM positions WHERE positionId=?

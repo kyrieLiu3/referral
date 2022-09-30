@@ -4,16 +4,17 @@ import { Button, Dropdown, Menu } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import { userState } from '../../store'
-import { useLogOut } from '../../hooks'
-import { EMPLOYEE } from '../../constant'
+import { useLogOut, useIsHrg } from '../../hooks'
 
 const LOG_OUT = 'LOG_OUT'
 const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
 const MY_REFERRAL = 'MY_REFERRAL'
 const MY_UPLOAD = 'MY_UPLOAD'
+const MY_CANDIDATE = 'MY_CANDIDATE'
 
 const Header = () => {
-  const { username, role } = useRecoilValue(userState)
+  const { username } = useRecoilValue(userState)
+  const isHrg = useIsHrg()
   const logOut = useLogOut()
   const navigate = useNavigate()
   const handleNavigate = path => navigate(path)
@@ -22,30 +23,37 @@ const Header = () => {
     CHANGE_PASSWORD: () => navigate('/changePassword'),
     MY_REFERRAL: () => navigate('/myReferral'),
     MY_UPLOAD: () => navigate('/myUpload'),
+    MY_CANDIDATE: () => navigate('/myCandidate')
   }
 
   const handleMenuClick = ({ key }) => {
     menuHandler[key]()
   }
-  const menu = (
-    <Menu
+  const generateMenu = () => {
+    const items = [
+      {
+        label: !isHrg ? 'My Referral' : 'My Upload',
+        key: !isHrg ? MY_REFERRAL : MY_UPLOAD,
+      },
+      {
+        label: 'Change Password',
+        key: CHANGE_PASSWORD,
+      },
+      {
+        label: 'Log Out',
+        key: LOG_OUT,
+      },
+    ]
+    isHrg && items.unshift({
+      label: 'My Candidate',
+      key: MY_CANDIDATE
+    })
+
+    return <Menu
       onClick={handleMenuClick}
-      items={[
-        {
-          label: role === EMPLOYEE ? 'My Referral' : 'My Upload',
-          key: role === EMPLOYEE ? MY_REFERRAL : MY_UPLOAD,
-        },
-        {
-          label: 'Change Password',
-          key: CHANGE_PASSWORD,
-        },
-        {
-          label: 'Log Out',
-          key: LOG_OUT,
-        },
-      ]}
+      items={items}
     />
-  )
+  }
 
   return (
     <header className={Styles.container}>
@@ -55,7 +63,7 @@ const Header = () => {
       <div className={Styles.accountContainer}>
         {username ? (
           <React.Fragment>
-            <Dropdown overlay={menu} placement="bottomRight" arrow>
+            <Dropdown overlay={generateMenu()} placement="bottomRight" arrow>
               <div className={Styles.username}>{username}</div>
             </Dropdown>
           </React.Fragment>
