@@ -11,6 +11,7 @@ const CHANGE_PASSWORD = 'CHANGE_PASSWORD'
 const MY_REFERRAL = 'MY_REFERRAL'
 const MY_UPLOAD = 'MY_UPLOAD'
 const MY_CANDIDATE = 'MY_CANDIDATE'
+const POSITION_LIST = 'POSITION_LIST'
 
 const Header = () => {
   const { username } = useRecoilValue(userState)
@@ -23,14 +24,17 @@ const Header = () => {
     CHANGE_PASSWORD: () => navigate('/changePassword'),
     MY_REFERRAL: () => navigate('/myReferral'),
     MY_UPLOAD: () => navigate('/myUpload'),
-    MY_CANDIDATE: () => navigate('/myCandidate')
+    MY_CANDIDATE: () => navigate('/myCandidate'),
+    POSITION_LIST: () => navigate('/positions'),
   }
 
-  const handleMenuClick = ({ key }) => {
-    menuHandler[key]()
-  }
+  const handleMenuClick = ({ key }) => menuHandler[key]()
   const generateMenu = () => {
     const items = [
+      {
+        label: 'Position List',
+        key: POSITION_LIST,
+      },
       {
         label: !isHrg ? 'My Referral' : 'My Upload',
         key: !isHrg ? MY_REFERRAL : MY_UPLOAD,
@@ -44,15 +48,13 @@ const Header = () => {
         key: LOG_OUT,
       },
     ]
-    isHrg && items.unshift({
-      label: 'My Candidate',
-      key: MY_CANDIDATE
-    })
+    isHrg &&
+      items.unshift({
+        label: 'My Candidate',
+        key: MY_CANDIDATE,
+      })
 
-    return <Menu
-      onClick={handleMenuClick}
-      items={items}
-    />
+    return <Menu onClick={handleMenuClick} items={items} />
   }
 
   return (

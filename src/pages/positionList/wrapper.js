@@ -72,6 +72,8 @@ const PositionLisyWrapper = () => {
       ></Filter>
       <Positions onCardClick={handleCardClick} positions={positions}></Positions>
       <Paginator
+        current={paginationData.pageNumber}
+        pageSize={paginationData.pageSize}
         onChange={onPaginationChange}
         total={total}
       ></Paginator>
