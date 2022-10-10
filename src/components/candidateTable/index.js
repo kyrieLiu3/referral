@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Table, Space, message } from 'antd'
+import React, { useEffect, useState, useCallback } from 'react'
+import { Button, Table, Space, message, Dropdown, Menu, Tag } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilValue } from 'recoil'
 import {
@@ -7,10 +7,12 @@ import {
   downloadResume,
   getCandidatesByPositionId,
   getCandidatesByHrgUserId,
+  updateCandidateStatus,
 } from '../../api'
 import { download } from '../../utils'
 import { useIsHrg } from '../../hooks'
 import { userState } from '../../store/user/user'
+import { CANDIDATE_STATUS_MAPPING, CANDIDATE_STATUS_TAG } from '../../constant'
 
 const CandidateTable = ({ tableHeight, positionId, isByUserId = false }) => {
   // This table component is for two places, one is for 'myReferral' page with employee, and the other is for 'myUpload' page with HRG.
@@ -21,29 +23,30 @@ const CandidateTable = ({ tableHeight, positionId, isByUserId = false }) => {
   const [tableData, setTableData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
+  const fetchTableData = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      const handler = isHrg
+        ? isByUserId
+          ? getCandidatesByHrgUserId
+          : getCandidatesByPositionId
+        : getCandidatesByUserId
+      const { data } = await handler(
+        isHrg ? (isByUserId ? { userId } : { positionId }) : undefined
+      )
+      setTableData(data)
+    } catch (error) {
+      console.log(error)
+      message.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [isByUserId, isHrg, positionId, userId])
+
   // get positions
   useEffect(() => {
-    const fetchTableData = async () => {
-      try {
-        setIsLoading(true)
-        const handler = isHrg
-          ? isByUserId
-            ? getCandidatesByHrgUserId
-            : getCandidatesByPositionId
-          : getCandidatesByUserId
-        const { data } = await handler(
-          isHrg ? (isByUserId ? { userId } : { positionId }) : undefined
-        )
-        setTableData(data)
-      } catch (error) {
-        console.log(error)
-        message.error(error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
     fetchTableData()
-  }, [positionId, isHrg, userId, isByUserId])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDownResume = async candidateId => {
     try {
@@ -57,6 +60,31 @@ const CandidateTable = ({ tableHeight, positionId, isByUserId = false }) => {
     navigate(`/recommend?isEdit=true&candidateId=${candidateId}`, {
       state: { positionId, positionName },
     })
+
+  const generateStatusMenuItem = ({ candidateId }) => {
+    const items = Object.entries(CANDIDATE_STATUS_MAPPING).map(
+      ([key, value]) => {
+        return { label: value, key }
+      }
+    )
+
+    return (
+      <Menu
+        onClick={({ key }) => handleChangeStatus(candidateId, key)}
+        items={items}
+      />
+    )
+  }
+
+  const handleChangeStatus = async (candidateId, candidateStatus) => {
+    try {
+      const params = { candidateId, candidateStatus }
+      await updateCandidateStatus(params)
+      fetchTableData()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const columns = [
     {
@@ -80,12 +108,31 @@ const CandidateTable = ({ tableHeight, positionId, isByUserId = false }) => {
       key: 'candidateEmail',
     },
     {
+      title: 'Hire Process',
+      dataIndex: 'candidateStatusTitle',
+      key: 'candidateStatusTitle',
+      render: (_, record) => (
+        <Tag color={CANDIDATE_STATUS_TAG[record.candidateStatus]}>
+          {record.candidateStatusTitle}
+        </Tag>
+      ),
+    },
+    {
       title: 'Action',
       key: 'action',
-      width: 240,
+      width: 280,
       render: (_, record) => (
         <Space size="middle">
-          {!isHrg && (
+          {isHrg ? (
+            <Dropdown
+              overlay={generateStatusMenuItem(record)}
+              placement="bottom"
+              trigger="click"
+              arrow
+            >
+              <Button type="link">Process</Button>
+            </Dropdown>
+          ) : (
             <Button type="link" onClick={() => handleEdit(record)}>
               Edit
             </Button>

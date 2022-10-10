@@ -18,6 +18,7 @@ exports.validateJWT = async (ctx, next) => {
       // ask token if path not included in white list
       if (!whiteList.includes(path)) {
         const token = ctx.headers['authorization']
+        if (!token) throw new Error('No Token provided')
         const { userId } = await validateToken(token)
         const [user] = await User.userData(userId)
         // pass user state though ctx.state

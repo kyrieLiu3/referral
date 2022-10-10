@@ -22,7 +22,8 @@ const {
   getCandidatebyIdHandler,
   updateCandidateByIdHandler,
   getCandidatesByPositionIdHandler,
-  getCandidatesByHrgUserIdHandler
+  getCandidatesByHrgUserIdHandler,
+  updateCandidateStatusHandler,
 } = require('./candidate')
 
 // user
@@ -50,3 +51,4 @@ exports.getCandidatebyIdHandler = getCandidatebyIdHandler
 exports.updateCandidateByIdHandler = updateCandidateByIdHandler
 exports.getCandidatesByPositionIdHandler = getCandidatesByPositionIdHandler
 exports.getCandidatesByHrgUserIdHandler = getCandidatesByHrgUserIdHandler
+exports.updateCandidateStatusHandler = updateCandidateStatusHandler

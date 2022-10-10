@@ -4,7 +4,8 @@ const {
   getCandidatebyIdHandler,
   updateCandidateByIdHandler,
   getCandidatesByPositionIdHandler,
-  getCandidatesByHrgUserIdHandler
+  getCandidatesByHrgUserIdHandler,
+  updateCandidateStatusHandler,
 } = require('../../service/index')
 
 module.exports = [
@@ -37,5 +38,10 @@ module.exports = [
     method: 'get',
     path: '/candidate/getCandidatesByHrgUserId',
     handler: getCandidatesByHrgUserIdHandler,
+  },
+  {
+    method: 'post',
+    path: '/candidate/updateCandidateStatus',
+    handler: updateCandidateStatusHandler,
   },
 ]

@@ -16,7 +16,7 @@ const POSITION_LIST = 'POSITION_LIST'
 const Header = () => {
   const { username } = useRecoilValue(userState)
   const isHrg = useIsHrg()
-  const logOut = useLogOut()
+  const logOut = useLogOut(isHrg)
   const navigate = useNavigate()
   const handleNavigate = path => navigate(path)
   const menuHandler = {
@@ -71,7 +71,7 @@ const Header = () => {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Button type="primary" onClick={() => handleNavigate('/signup')}>
+            <Button type="primary" shape="round" onClick={() => handleNavigate('/signup')}>
               Sign Up
             </Button>
             <Button type="link" onClick={() => handleNavigate('/signin')}>

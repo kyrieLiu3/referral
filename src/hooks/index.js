@@ -25,18 +25,18 @@ export const useFetchUser = () => {
 }
 
 // logout logic
-export const useLogOut = () => {
+export const useLogOut = (isHrg = false) => {
   const navigate = useNavigate()
   const setUserState = useSetRecoilState(userState)
   const logOut = () => {
     localStorage.removeItem('token')
     setUserState(userInitState)
-    navigate('/signin')
+    navigate(`/signin${isHrg ? `?role=${HRG}` : ''}`)
   }
   return logOut
 }
 
-// determine whether current user has auth to visit some special pages or not 
+// determine whether current user has auth to visit some special pages or not
 export const useAuth = () => {
   const user = useRecoilValue(userState)
   return !!user.token
@@ -45,7 +45,7 @@ export const useAuth = () => {
 export const useLoading = isLoading => {
   const Loading = ({ isLoading }) => (
     <Spin
-      wrapperClassName='spinWrapper'
+      wrapperClassName="spinWrapper"
       style={{
         position: 'absolute',
         top: '50%',

@@ -121,3 +121,18 @@ exports.getCandidatesByHrgUserIdHandler = async ctx => {
     ctx.status = 500
   }
 }
+
+exports.updateCandidateStatusHandler = async ctx => {
+  try {
+    const { candidateId, candidateStatus } = ctx.request.body
+    if (candidateId && candidateStatus) {
+      await Candidate.updateCandidateStatus(candidateId, candidateStatus)
+      ctx.body = successStructure
+    } else {
+      ctx.status = 400
+    }
+  } catch (error) {
+    console.log(error)
+    ctx.status = 500
+  }
+}

@@ -1,4 +1,5 @@
 const { connectDb, operateDb } = require('../../database/tool')
+const { CANDIDATE_STATUS_MAPPING } = require('../../database/constant')
 
 class Candidate {
   addCandidate = async ({
@@ -14,7 +15,7 @@ class Candidate {
   }) => {
     const db = await connectDb()
     const SQL = `
-      INSERT INTO candidates(candidateName, candidatePhoneNumber, candidateEmail, candidateResume, candidateId, resumeId, userId, positionId, positionName) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) 
+      INSERT INTO candidates(candidateName, candidatePhoneNumber, candidateEmail, candidateResume, candidateId, candidateStatus, candidateStatusTitle, resumeId, userId, positionId, positionName) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) 
     `
     const params = [
       candidateName,
@@ -22,6 +23,8 @@ class Candidate {
       candidateEmail,
       JSON.stringify(candidateResume),
       candidateId,
+      '0',
+      CANDIDATE_STATUS_MAPPING['0'],
       resumeId,
       userId,
       positionId,
@@ -97,6 +100,19 @@ class Candidate {
     `
     console.info(SQL, '<=> SQL')
     return await operateDb(db, SQL)
+  }
+
+  updateCandidateStatus = async (candidateId, candidateStatus) => {
+    const db = await connectDb()
+    const SQL = `
+      UPDATE candidates SET candidateStatus=?, candidateStatusTitle=?  WHERE candidateId=?
+    `
+    const params = [
+      candidateStatus,
+      CANDIDATE_STATUS_MAPPING[candidateStatus],
+      candidateId,
+    ]
+    return await operateDb(db, SQL, params)
   }
 }
 
