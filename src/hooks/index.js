@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useMemo } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { useNavigate } from 'react-router-dom'
 import { getUserData } from '../api'
