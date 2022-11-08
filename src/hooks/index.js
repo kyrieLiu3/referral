@@ -13,9 +13,13 @@ export const useFetchUser = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const { data } = await getUserData()
-        const token = localStorage.getItem('token')
-        setUser(_user => ({ ..._user, ...data, token }))
+        const existedToken = localStorage.getItem('token')
+        // Fetch user data if token exists
+        if (existedToken) {
+          const { data } = await getUserData()
+          localStorage.setItem('token', data.refreshToken)
+          setUser(_user => ({ ..._user, ...data, token: data.refreshToken }))
+        }
       } catch (error) {
         console.log(error, 'USER NOT FOUND')
       }

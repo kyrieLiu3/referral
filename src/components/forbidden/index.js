@@ -3,6 +3,7 @@ import Header from '../header'
 import Content from '../content'
 import Styles from './forbidden.module.less'
 import { useNavigate } from 'react-router-dom'
+import { Result, Button } from 'antd'
 
 const Forbidden = () => {
   const navigate = useNavigate()
@@ -11,9 +12,19 @@ const Forbidden = () => {
       <Header></Header>
       <Content>
         <div className={Styles.forbiddenContainer}>
-          <p className={Styles.forbidden}>
-            Opps, action is forbidden! <span className={Styles.signin} onClick={() => navigate('/signin')}>Sign In</span>
-          </p>
+          <Result
+            status="403"
+            title="403"
+            subTitle="Sorry, you are not authorized to access this page."
+            extra={
+              <Button
+                type="primary"
+                onClick={() => navigate('/signin')}
+              >
+                Sign In
+              </Button>
+            }
+          />
         </div>
       </Content>
     </React.Fragment>

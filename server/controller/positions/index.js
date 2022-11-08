@@ -100,7 +100,8 @@ class Position {
     const SQL = `
       SELECT candidateIds FROM positions WHERE positionId=?
     `
-    const [{ candidateIds }] = await operateDb(db, SQL, [positionId])
+    const params = [positionId]
+    const [{ candidateIds }] = await operateDb(db, SQL, params)
     return JSON.parse(candidateIds)
   }
 

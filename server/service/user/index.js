@@ -30,7 +30,7 @@ const validataSignin = (username, password, role) => {
   )
 }
 
-const validateChangePassword = (password) => {
+const validateChangePassword = password => {
   return passwordReg.test(password)
 }
 
@@ -107,7 +107,12 @@ exports.signinHandler = async ctx => {
 exports.getUserDataHandler = async ctx => {
   try {
     const { userId, username, role } = ctx.state.user
-    ctx.body = { ...successStructure, data: { userId, username, role } }
+    const timestamp = +new Date()
+    const refreshToken = await generateToken({ userId, timestamp })
+    ctx.body = {
+      ...successStructure,
+      data: { userId, username, role, refreshToken },
+    }
   } catch (error) {
     ctx.status = 500
   }

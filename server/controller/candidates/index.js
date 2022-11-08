@@ -91,6 +91,7 @@ class Candidate {
     return await operateDb(db, SQL, [positionId])
   }
 
+  // Internal invoking without SQL injection
   getCandidatesByCandidateIds = async (candidateIds = []) => {
     const db = await connectDb()
     const SQL = `
@@ -98,7 +99,6 @@ class Candidate {
         .map(id => `'${id}'`)
         .toString()})
     `
-    console.info(SQL, '<=> SQL')
     return await operateDb(db, SQL)
   }
 

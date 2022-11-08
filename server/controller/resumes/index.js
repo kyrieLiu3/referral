@@ -15,7 +15,8 @@ class Resume {
     const SQL = `
       SELECT * FROM resumes WHERE resumeId=?
     `
-    const [resume] = await operateDb(db, SQL, [resumeId])
+    const params = [resumeId]
+    const [resume] = await operateDb(db, SQL, params)
     return resume
   }
 }
