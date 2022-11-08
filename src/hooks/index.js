@@ -68,12 +68,11 @@ export const useLoading = isLoading => {
     } else {
       ref.current.classList.remove('loadingWrapper')
     }
-  })
+  }, [isLoading])
   return [ref, Loading]
 }
 
 export const useIsHrg = () => {
   const user = useRecoilValue(userState)
-  const isHrg = useMemo(() => user.role === HRG, [user])
-  return isHrg
+  return user.role === HRG
 }
